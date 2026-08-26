@@ -26,13 +26,20 @@ public class PlayerManagerC : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _=StateLoop();
-        _=ActionLoop();
+        Debug.Log($"START PlayerManagerC : {GetInstanceID()}");
+        StateLoop().Forget();
+        ActionLoop().Forget();
+    }
+    private void OnDestroy()
+    {
+        Debug.Log($"DESTROY PlayerManagerC : {GetInstanceID()}");
     }
 
     private async UniTask StateLoop()
     {
-        await UniTask.WaitUntil(()=>isGame);
+        var token = destroyCancellationToken;
+        Debug.Log($"StateLoop START : {GetInstanceID()}");
+        await UniTask.WaitUntil(()=>isGame,cancellationToken: token);
         while (isGame)
         {
             CheckGround();
@@ -44,17 +51,18 @@ public class PlayerManagerC : MonoBehaviour
                 case PlayerStateC.dead:
                     break;
             }
-            await UniTask.Yield();
+            await UniTask.Yield(cancellationToken: token);
         }
     }
 
     private async UniTask ActionLoop()
     {
-        await UniTask.WaitUntil(()=>isGame);
+        var token = destroyCancellationToken;
+        await UniTask.WaitUntil(()=>isGame,cancellationToken: token);
         while (isGame)
         {
             CheckInput();
-            await UniTask.Yield();
+            await UniTask.Yield(cancellationToken: token);
         }
     }
 
@@ -78,6 +86,7 @@ public class PlayerManagerC : MonoBehaviour
 
     public void CheckGround()
     {
+        Debug.Log($"CheckGround : {GetInstanceID()}");
         bool isHit=Physics.Raycast(
             transform.position,
             Vector3.down,
