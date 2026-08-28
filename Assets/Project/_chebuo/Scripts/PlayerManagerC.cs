@@ -30,19 +30,13 @@ public class PlayerManagerC : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log($"START PlayerManagerC : {GetInstanceID()}");
         StateLoop().Forget();
         ActionLoop().Forget();
-    }
-    private void OnDestroy()
-    {
-        Debug.Log($"DESTROY PlayerManagerC : {GetInstanceID()}");
     }
 
     private async UniTask StateLoop()
     {
         var token = destroyCancellationToken;
-        Debug.Log($"StateLoop START : {GetInstanceID()}");
         await UniTask.WaitUntil(()=>isGame,cancellationToken: token);
         while (isGame)
         {
@@ -91,7 +85,6 @@ public class PlayerManagerC : MonoBehaviour
 
     public void CheckGround()
     {
-        Debug.Log($"CheckGround : {GetInstanceID()}");
         bool isHitR=Physics.Raycast(
             bottomR.transform.position,
             Vector3.down,
@@ -106,6 +99,7 @@ public class PlayerManagerC : MonoBehaviour
             groundCheckDistance,
             groundLayer
         );
+        Debug.Log($"{isHitL},{isHitR}");
         isGround=isHitR||isHitL;
     }
 
