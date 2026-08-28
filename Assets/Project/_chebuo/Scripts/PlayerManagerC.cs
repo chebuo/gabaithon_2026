@@ -11,9 +11,13 @@ public class PlayerManagerC : MonoBehaviour
     InputAction jumpAction;
 
     public bool isGame=false;
+    [SerializeField]private GameObject bottomR;
+    [SerializeField]private GameObject bottomL;
     private bool isGround=false;
+    private bool isMiss=false;
     [SerializeField]private LayerMask groundLayer;
     [SerializeField]private float groundCheckDistance=0.1f;
+    [SerializeField]private float missCheckDistance=0.1f;
     public PlayerStateC currentState=PlayerStateC.moving;
 
     PlayerControllerC playerController;
@@ -43,6 +47,7 @@ public class PlayerManagerC : MonoBehaviour
         while (isGame)
         {
             CheckGround();
+            CheckMiss();
             switch (currentState)
             {
                 case PlayerStateC.moving:
@@ -87,13 +92,37 @@ public class PlayerManagerC : MonoBehaviour
     public void CheckGround()
     {
         Debug.Log($"CheckGround : {GetInstanceID()}");
-        bool isHit=Physics.Raycast(
-            transform.position,
+        bool isHitR=Physics.Raycast(
+            bottomR.transform.position,
             Vector3.down,
-            out RaycastHit hit,
+            out RaycastHit hitR,
             groundCheckDistance,
             groundLayer
         );
-        isGround=isHit;
+        bool isHitL=Physics.Raycast(
+            bottomL.transform.position,
+            Vector3.down,
+            out RaycastHit hitL,
+            groundCheckDistance,
+            groundLayer
+        );
+        isGround=isHitR||isHitL;
+    }
+
+    public void CheckMiss()
+    {
+        bool isHitR=Physics.Raycast(
+            bottomR.transform.position,
+            Vector3.right,
+            missCheckDistance,
+            groundLayer
+        );
+        isMiss=isHitR;
+        if(isMiss)ChangeState(PlayerStateC.dead);
+    }
+
+    public void ChangeState(PlayerStateC state)
+    {
+        currentState=state;
     }
 }
