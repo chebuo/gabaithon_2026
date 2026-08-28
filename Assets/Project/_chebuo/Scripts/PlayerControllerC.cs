@@ -11,7 +11,7 @@ public class PlayerControllerC : MonoBehaviour
 
     public void Move(float speed)
     {
-        
+        rb.linearVelocity=new Vector3(speed,rb.linearVelocity.y,rb.linearVelocity.z);
     }
 
     public void Jump(float jumpForce)

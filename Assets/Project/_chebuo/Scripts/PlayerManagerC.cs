@@ -11,9 +11,13 @@ public class PlayerManagerC : MonoBehaviour
     InputAction jumpAction;
 
     public bool isGame=false;
+    [SerializeField]private GameObject bottomR;
+    [SerializeField]private GameObject bottomL;
     private bool isGround=false;
+    private bool isMiss=false;
     [SerializeField]private LayerMask groundLayer;
     [SerializeField]private float groundCheckDistance=0.1f;
+    [SerializeField]private float missCheckDistance=0.1f;
     public PlayerStateC currentState=PlayerStateC.moving;
 
     PlayerControllerC playerController;
@@ -26,16 +30,18 @@ public class PlayerManagerC : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _=StateLoop();
-        _=ActionLoop();
+        StateLoop().Forget();
+        ActionLoop().Forget();
     }
 
     private async UniTask StateLoop()
     {
-        await UniTask.WaitUntil(()=>isGame);
+        var token = destroyCancellationToken;
+        await UniTask.WaitUntil(()=>isGame,cancellationToken: token);
         while (isGame)
         {
             CheckGround();
+            CheckMiss();
             switch (currentState)
             {
                 case PlayerStateC.moving:
@@ -44,17 +50,18 @@ public class PlayerManagerC : MonoBehaviour
                 case PlayerStateC.dead:
                     break;
             }
-            await UniTask.Yield();
+            await UniTask.Yield(cancellationToken: token);
         }
     }
 
     private async UniTask ActionLoop()
     {
-        await UniTask.WaitUntil(()=>isGame);
+        var token = destroyCancellationToken;
+        await UniTask.WaitUntil(()=>isGame,cancellationToken: token);
         while (isGame)
         {
             CheckInput();
-            await UniTask.Yield();
+            await UniTask.Yield(cancellationToken: token);
         }
     }
 
@@ -78,13 +85,38 @@ public class PlayerManagerC : MonoBehaviour
 
     public void CheckGround()
     {
-        bool isHit=Physics.Raycast(
-            transform.position,
+        bool isHitR=Physics.Raycast(
+            bottomR.transform.position,
             Vector3.down,
-            out RaycastHit hit,
+            out RaycastHit hitR,
             groundCheckDistance,
             groundLayer
         );
-        isGround=isHit;
+        bool isHitL=Physics.Raycast(
+            bottomL.transform.position,
+            Vector3.down,
+            out RaycastHit hitL,
+            groundCheckDistance,
+            groundLayer
+        );
+        Debug.Log($"{isHitL},{isHitR}");
+        isGround=isHitR||isHitL;
+    }
+
+    public void CheckMiss()
+    {
+        bool isHitR=Physics.Raycast(
+            bottomR.transform.position,
+            Vector3.right,
+            missCheckDistance,
+            groundLayer
+        );
+        isMiss=isHitR;
+        if(isMiss)ChangeState(PlayerStateC.dead);
+    }
+
+    public void ChangeState(PlayerStateC state)
+    {
+        currentState=state;
     }
 }
