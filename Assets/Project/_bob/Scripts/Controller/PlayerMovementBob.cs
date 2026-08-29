@@ -8,6 +8,7 @@ public class PlayerMovementBob : MonoBehaviour
     [SerializeField, Tooltip("水平方向の移動速度 (m/s)")]
     private float moveSpeed = 5f;
     public int score = 0;
+    private float delTimer = 0f;
 
     private Rigidbody rb;
     private Vector2 moveInput;
@@ -65,6 +66,22 @@ public class PlayerMovementBob : MonoBehaviour
             score += 1;
             moveSpeed -= 0.2f;
             Destroy(collision.gameObject);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        // 貴重品取得確認
+        if (other.gameObject.tag == "track")
+        {
+            delTimer += Time.deltaTime;
+            if (delTimer >= 0.2f && score > 0)
+            {
+                score -= 1;
+                moveSpeed += 0.2f;
+                delTimer = 0f;
+                Debug.Log("納品");
+            }
         }
     }
 }
