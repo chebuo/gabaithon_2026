@@ -15,12 +15,14 @@ public class PlayerManagerC : MonoBehaviour
     [SerializeField]private GameObject bottomL;
     private bool isGround=false;
     private bool isMiss=false;
+    public bool isDead=false;
     [SerializeField]private LayerMask groundLayer;
     [SerializeField]private float groundCheckDistance=0.1f;
     [SerializeField]private float missCheckDistance=0.1f;
     public PlayerStateC currentState=PlayerStateC.moving;
 
     PlayerControllerC playerController;
+    SceneChanger sceneChanger=new SceneChanger();
     void Awake()
     {
         playerController=this.GetComponent<PlayerControllerC>();
@@ -40,14 +42,19 @@ public class PlayerManagerC : MonoBehaviour
         await UniTask.WaitUntil(()=>isGame,cancellationToken: token);
         while (isGame)
         {
-            CheckGround();
-            CheckMiss();
+            AllCheck();
             switch (currentState)
             {
                 case PlayerStateC.moving:
                     Move();
                     break;
+                case PlayerStateC.missing:
+                    StopMove();
+                    break;
                 case PlayerStateC.dead:
+                    FinishGame();
+                    break;
+                default:
                     break;
             }
             await UniTask.Yield(cancellationToken: token);
@@ -78,9 +85,26 @@ public class PlayerManagerC : MonoBehaviour
         playerController.Move(moveSpeed);
     }
 
+    public void StopMove()
+    {
+        moveSpeed=0;
+    }
+
     public void Jump()
     {
         playerController.Jump(jumpForce);
+    }
+
+    public void FinishGame()
+    {
+        sceneChanger.ChangeScene("FailEscape");
+    }
+
+    public void AllCheck()
+    {
+        CheckGround();
+        CheckMiss();
+        CheckDead();
     }
 
     public void CheckGround()
@@ -99,7 +123,6 @@ public class PlayerManagerC : MonoBehaviour
             groundCheckDistance,
             groundLayer
         );
-        Debug.Log($"{isHitL},{isHitR}");
         isGround=isHitR||isHitL;
     }
 
@@ -112,7 +135,16 @@ public class PlayerManagerC : MonoBehaviour
             groundLayer
         );
         isMiss=isHitR;
-        if(isMiss)ChangeState(PlayerStateC.dead);
+        if(isMiss)ChangeState(PlayerStateC.missing);
+        Debug.Log(isMiss);
+    }
+
+    public void CheckDead()
+    {
+        if (this.transform.position.y < 0)
+        {
+            ChangeState(PlayerStateC.dead);
+        }
     }
 
     public void ChangeState(PlayerStateC state)
