@@ -22,7 +22,6 @@ public class PlayerManagerC : MonoBehaviour
     public PlayerStateC currentState=PlayerStateC.moving;
 
     PlayerControllerC playerController;
-    SceneChanger sceneChanger=new SceneChanger();
     void Awake()
     {
         playerController=this.GetComponent<PlayerControllerC>();
@@ -50,9 +49,6 @@ public class PlayerManagerC : MonoBehaviour
                     break;
                 case PlayerStateC.missing:
                     StopMove();
-                    break;
-                case PlayerStateC.dead:
-                    FinishGame();
                     break;
                 default:
                     break;
@@ -95,11 +91,6 @@ public class PlayerManagerC : MonoBehaviour
         playerController.Jump(jumpForce);
     }
 
-    public void FinishGame()
-    {
-        sceneChanger.ChangeScene("FailEscape");
-    }
-
     public void AllCheck()
     {
         CheckGround();
@@ -136,7 +127,6 @@ public class PlayerManagerC : MonoBehaviour
         );
         isMiss=isHitR;
         if(isMiss)ChangeState(PlayerStateC.missing);
-        Debug.Log(isMiss);
     }
 
     public void CheckDead()
@@ -144,11 +134,13 @@ public class PlayerManagerC : MonoBehaviour
         if (this.transform.position.y < 0)
         {
             ChangeState(PlayerStateC.dead);
+            Debug.Log(currentState);
         }
     }
 
     public void ChangeState(PlayerStateC state)
     {
+        if(currentState==state)return;
         currentState=state;
     }
 }
