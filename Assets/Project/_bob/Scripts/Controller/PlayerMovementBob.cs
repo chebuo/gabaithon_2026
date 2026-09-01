@@ -6,9 +6,7 @@ public class PlayerMovementBob : MonoBehaviour
 {
     [Header("移動設定")]
     [SerializeField, Tooltip("水平方向の移動速度 (m/s)")]
-    private float moveSpeed = 5f;
-    public int score = 0;
-    private float delTimer = 0f;
+    public float moveSpeed = 5f;
 
     private Rigidbody rb;
     private Vector2 moveInput;
@@ -56,32 +54,5 @@ public class PlayerMovementBob : MonoBehaviour
         if (keyboard.aKey.isPressed) input.x -= 1f;
 
         return input.normalized;
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        // 貴重品取得確認
-        if (collision.gameObject.tag == "valuables")
-        {
-            score += 1;
-            moveSpeed -= 0.2f;
-            Destroy(collision.gameObject);
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        // 貴重品取得確認
-        if (other.gameObject.tag == "track")
-        {
-            delTimer += Time.deltaTime;
-            if (delTimer >= 0.2f && score > 0)
-            {
-                score -= 1;
-                moveSpeed += 0.2f;
-                delTimer = 0f;
-                Debug.Log("納品");
-            }
-        }
     }
 }
