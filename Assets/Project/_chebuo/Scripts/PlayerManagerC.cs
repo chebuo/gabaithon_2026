@@ -13,7 +13,7 @@ public class PlayerManagerC : MonoBehaviour
     public bool isGame=false;
     [SerializeField]private GameObject bottomR;
     [SerializeField]private GameObject bottomL;
-    private bool isGround=false;
+    public bool isGround=false;
     private bool isMiss=false;
     public bool isDead=false;
     [SerializeField]private LayerMask groundLayer;
@@ -22,9 +22,11 @@ public class PlayerManagerC : MonoBehaviour
     public PlayerStateC currentState=PlayerStateC.moving;
 
     PlayerControllerC playerController;
+    Animator animator;
     void Awake()
     {
         playerController=this.GetComponent<PlayerControllerC>();
+        animator=this.GetComponent<Animator>();
         jumpAction=inputActions.FindAction("Jump");
         jumpAction.Enable();
     }
@@ -115,6 +117,7 @@ public class PlayerManagerC : MonoBehaviour
             groundLayer
         );
         isGround=isHitR||isHitL;
+        animator.SetBool("isGround",isGround);
     }
 
     public void CheckMiss()
