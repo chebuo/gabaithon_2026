@@ -1,14 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Cysharp.Threading.Tasks;
 
 public class SceneChanger
 {
-    float currentTime=0;
-    float waitTime=0.8f;
-    public void ChangeScene(string sceneName)
+    public void ChangeScene(string sceneName,float delayTime)
     {
-        currentTime += Time.deltaTime;
-        if(currentTime >= waitTime)LoadScene();
+        UniTask.Delay((int)(1000*delayTime));
+        LoadScene();
         void LoadScene()
         {
             SceneManager.LoadScene(sceneName);
