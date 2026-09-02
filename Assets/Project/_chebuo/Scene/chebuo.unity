@@ -582,7 +582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c9545611df30e4b990862ad36b47e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildGenerator
-  player: {fileID: 0}
+  player: {fileID: 159847554}
   buildingPrefab: {fileID: 3183866870617621303, guid: ea62412302e1a5649a62c517acf9bc57, type: 3}
   firstBuildingPosition: {x: -10, y: 0, z: 20}
   firstBuildingScale: {x: 5, y: 15, z: 5}
@@ -1287,7 +1287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EscapeGameManager
   gameTime: 10
-  playerManager: {fileID: 0}
+  playerManager: {fileID: 159847550}
   uiManager: {fileID: 1450307763}
   currentState: 0
 --- !u!4 &1203762316
@@ -1958,7 +1958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c9545611df30e4b990862ad36b47e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildGenerator
-  player: {fileID: 0}
+  player: {fileID: 159847554}
   buildingPrefab: {fileID: 3183866870617621303, guid: 5bb6225a2285c134f9b13d3ba265f71a, type: 3}
   firstBuildingPosition: {x: -5, y: 0, z: 0}
   firstBuildingScale: {x: 20, y: 10, z: 5}
