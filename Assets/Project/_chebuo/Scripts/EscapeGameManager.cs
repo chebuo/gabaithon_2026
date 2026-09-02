@@ -1,11 +1,12 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-using System.Threading.Tasks;
 
 public class EscapeGameManager : MonoBehaviour
 {
     public float gameTime=180;
     private float currentTime=0;
+
+    public bool isClear=false;
 
     SceneChanger sceneChanger=new SceneChanger();
     [SerializeField]PlayerManagerC playerManager;
@@ -33,11 +34,13 @@ public class EscapeGameManager : MonoBehaviour
     {
         ChangeState(EscapeGameState.playing);
         _=Timer();
-        await UniTask.WaitUntil(()=>playerManager.currentState==PlayerStateC.dead||currentTime>=gameTime);
+        await UniTask.WaitUntil(()=>playerManager.currentState==PlayerStateC.dead||currentState==EscapeGameState.finish);
     }
 
     private async UniTask FinishGame()
     {
+        Debug.Log(isClear);
+        
         sceneChanger.ChangeScene("FailEscape",0);
     }
 
@@ -76,6 +79,8 @@ public class EscapeGameManager : MonoBehaviour
                 await UniTask.Yield();
             }
         }
+        if(!playerManager.isMiss)isClear=true;
+        ChangeState(EscapeGameState.finish);
     }
 
 

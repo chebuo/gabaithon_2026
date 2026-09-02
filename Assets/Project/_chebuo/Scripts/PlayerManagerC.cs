@@ -14,7 +14,7 @@ public class PlayerManagerC : MonoBehaviour
     [SerializeField]private GameObject bottomR;
     [SerializeField]private GameObject bottomL;
     public bool isGround=false;
-    private bool isMiss=false;
+    public bool isMiss=false;
     public bool isDead=false;
     [SerializeField]private LayerMask groundLayer;
     [SerializeField]private float groundCheckDistance=0.1f;
