@@ -123,7 +123,7 @@ public class PlayerManagerC : MonoBehaviour
     public void CheckMiss()
     {
         bool isHitR=Physics.Raycast(
-            bottomR.transform.position,
+            bottomR.transform.position-new Vector3(0,-0.1f,0),
             Vector3.right,
             missCheckDistance,
             groundLayer

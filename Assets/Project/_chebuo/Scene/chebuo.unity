@@ -288,6 +288,7 @@ MonoBehaviour:
   bottomR: {fileID: 782236061}
   bottomL: {fileID: 1579082546}
   isGround: 0
+  isMiss: 0
   isDead: 0
   groundLayer:
     serializedVersion: 2
@@ -583,7 +584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildGenerator
   player: {fileID: 159847554}
-  buildingPrefab: {fileID: 3183866870617621303, guid: ea62412302e1a5649a62c517acf9bc57, type: 3}
+  buildingPrefab: {fileID: 3183866870617621303, guid: 5bb6225a2285c134f9b13d3ba265f71a, type: 3}
   firstBuildingPosition: {x: -10, y: 0, z: 20}
   firstBuildingScale: {x: 5, y: 15, z: 5}
   minBuildingWidth: 10
@@ -594,7 +595,9 @@ MonoBehaviour:
   maxGap: 15
   noiseScale: 100
   maxHeightDifference: 100
-  generateDistance: 30
+  generateDistance: 120
+  mainCamera: {fileID: 1808300470}
+  poolManager: {fileID: 1043567128}
 --- !u!4 &404390456
 Transform:
   m_ObjectHideFlags: 0
@@ -742,6 +745,124 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 460257823}
   m_CullTransparentMesh: 1
+--- !u!1 &518020553
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 518020555}
+  - component: {fileID: 518020554}
+  m_Layer: 0
+  m_Name: BackgroundGenerator_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &518020554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518020553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18c9545611df30e4b990862ad36b47e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildGenerator
+  player: {fileID: 159847554}
+  buildingPrefab: {fileID: 3183866870617621303, guid: 5bb6225a2285c134f9b13d3ba265f71a, type: 3}
+  firstBuildingPosition: {x: -25, y: 0, z: 80}
+  firstBuildingScale: {x: 5, y: 60, z: 30}
+  minBuildingWidth: 50
+  maxBuildingWidth: 70
+  minHeight: 60
+  maxHeight: 80
+  minGap: 3
+  maxGap: 5
+  noiseScale: 1000
+  maxHeightDifference: 100
+  generateDistance: 300
+  mainCamera: {fileID: 1808300470}
+  poolManager: {fileID: 1043567128}
+--- !u!4 &518020555
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518020553}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &615705083
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 615705085}
+  - component: {fileID: 615705084}
+  m_Layer: 0
+  m_Name: BackgroundGenerator_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &615705084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615705083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18c9545611df30e4b990862ad36b47e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildGenerator
+  player: {fileID: 159847554}
+  buildingPrefab: {fileID: 3183866870617621303, guid: 5bb6225a2285c134f9b13d3ba265f71a, type: 3}
+  firstBuildingPosition: {x: -25, y: 0, z: 40}
+  firstBuildingScale: {x: 5, y: 30, z: 15}
+  minBuildingWidth: 20
+  maxBuildingWidth: 50
+  minHeight: 25
+  maxHeight: 50
+  minGap: 5
+  maxGap: 15
+  noiseScale: 100
+  maxHeightDifference: 100
+  generateDistance: 180
+  mainCamera: {fileID: 1808300470}
+  poolManager: {fileID: 1043567128}
+--- !u!4 &615705085
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615705083}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &782236061
 GameObject:
   m_ObjectHideFlags: 0
@@ -767,7 +888,7 @@ Transform:
   m_GameObject: {fileID: 782236061}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -937,6 +1058,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 8888205151730821530, guid: 11b002f8b31f82541ad0c1d8e45c529d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 80b4cae666f8681418be85b6eedc8089, type: 2}
     - target: {fileID: 9197039651796239957, guid: 11b002f8b31f82541ad0c1d8e45c529d, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -973,6 +1098,51 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 159847549}
   m_SourcePrefab: {fileID: 100100000, guid: 11b002f8b31f82541ad0c1d8e45c529d, type: 3}
+--- !u!1 &1043567127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1043567129}
+  - component: {fileID: 1043567128}
+  m_Layer: 0
+  m_Name: PoolManagerC
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1043567128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043567127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b72c13e42661ae148b88b2dfbb56a685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PoolManagerC
+  prefab: {fileID: 3183866870617621303, guid: 5bb6225a2285c134f9b13d3ba265f71a, type: 3}
+--- !u!4 &1043567129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043567127}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 45.41368, y: -0, z: 51.45053}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1179944662
 GameObject:
   m_ObjectHideFlags: 0
@@ -1091,7 +1261,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: af947c8f1b2f7ad4c81b3eb663827d92, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -1286,7 +1456,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a561bee8148485448b4f1ae8d528058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EscapeGameManager
-  gameTime: 10
+  gameTime: 400
+  isClear: 0
   playerManager: {fileID: 159847550}
   uiManager: {fileID: 1450307763}
   currentState: 0
@@ -1970,7 +2141,9 @@ MonoBehaviour:
   maxGap: 4
   noiseScale: 0.4
   maxHeightDifference: 1.5
-  generateDistance: 30
+  generateDistance: 40
+  mainCamera: {fileID: 1808300470}
+  poolManager: {fileID: 1043567128}
 --- !u!4 &2050698787
 Transform:
   m_ObjectHideFlags: 0
@@ -2092,12 +2265,15 @@ Canvas:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 2050698787}
-  - {fileID: 404390456}
   - {fileID: 1627466530}
   - {fileID: 2073413890}
-  - {fileID: 1892617135}
-  - {fileID: 1203762316}
-  - {fileID: 1450307764}
   - {fileID: 213736677}
+  - {fileID: 1892617135}
   - {fileID: 1028082500}
+  - {fileID: 2050698787}
+  - {fileID: 404390456}
+  - {fileID: 615705085}
+  - {fileID: 518020555}
+  - {fileID: 1043567129}
+  - {fileID: 1450307764}
+  - {fileID: 1203762316}

@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class BuildGenerator : MonoBehaviour
 {
@@ -28,6 +30,10 @@ public class BuildGenerator : MonoBehaviour
     [Header("Generate")]
     [SerializeField] private float generateDistance = 30f;
 
+    [SerializeField]private Camera mainCamera;
+    [SerializeField]PoolManagerC poolManager;
+    private List<GameObject> buildings = new List<GameObject>();
+
     private float nextBuildX;
     private float noiseOffset;
     private float currentTopY;
@@ -51,6 +57,7 @@ public class BuildGenerator : MonoBehaviour
         {
             GenerateBuilding();
         }
+        ReleaseBuilding();
     }
 
     private void GenerateFirstBuilding()
@@ -63,11 +70,16 @@ public class BuildGenerator : MonoBehaviour
             firstBuildingPosition.z
         );
 
-        GameObject firstBuilding = Instantiate(
+        GameObject firstBuilding = poolManager.GetGameObject(
             buildingPrefab,
             position,
-            Quaternion.identity,
-            transform
+            Quaternion.identity
+        );
+        buildings.Add(firstBuilding);
+
+        firstBuilding.GetComponent<Renderer>().material.SetColor(
+            "_BuildingColor",
+            Random.ColorHSV()
         );
 
         firstBuilding.transform.localScale = firstBuildingScale;
@@ -132,17 +144,22 @@ public class BuildGenerator : MonoBehaviour
             firstBuildingPosition.z
         );
 
-        GameObject building = Instantiate(
+        GameObject building = poolManager.GetGameObject(
             buildingPrefab,
             position,
-            Quaternion.identity,
-            transform
+            Quaternion.identity
         );
+        buildings.Add(building);
 
         building.transform.localScale = new Vector3(
             width,
             buildingHeight,
             firstBuildingScale.z
+        );
+
+        building.GetComponent<Renderer>().material.SetColor(
+            "_BuildingColor",
+            Random.ColorHSV()
         );
 
         // 次の建物の左端を更新
@@ -154,4 +171,19 @@ public class BuildGenerator : MonoBehaviour
         currentTopY=topY;
     }
 
+    private void ReleaseBuilding()
+    {
+        for (int i=0;i<buildings.Count-1;i++)
+        {
+            GameObject building=buildings[i];
+            if (building == null) continue;
+
+            Vector3 viewportPos=mainCamera.WorldToViewportPoint(building.transform.position);
+            if (viewportPos.z < 0)
+            {
+                poolManager.ReleaseGameObject(building);
+                buildings.RemoveAt(i);
+            }
+        }
+    }
 }
