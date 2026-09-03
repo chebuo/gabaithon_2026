@@ -59,7 +59,7 @@ public class EscapeGameManager : MonoBehaviour
     private async UniTask FinishGame()
     {
         Debug.Log(isClear);
-        
+        playerData.isClearEscape=isClear;
         sceneChanger.ChangeScene("FinishEscape",0);
         await UniTask.Yield();
     }

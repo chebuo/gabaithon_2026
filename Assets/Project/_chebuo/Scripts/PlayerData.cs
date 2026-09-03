@@ -8,6 +8,8 @@ public class PlayerData : ScriptableObject
     public bool isGameOver=false;
     public bool isRevive=false;
     public int ReviveCost=10;
-
+    public bool isClearBank=false;
+    public bool isClearCasino=false;
+    public bool isClearEscape=false;
 
 }
