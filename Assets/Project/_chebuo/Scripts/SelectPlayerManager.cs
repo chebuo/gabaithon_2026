@@ -59,15 +59,21 @@ public class SelectPlayerManager : MonoBehaviour
     {
         if(col.gameObject.CompareTag("Bank"))
         {
-            Debug.Log("Bank");
-            selectBank=true;
-            sceneChanger.ChangeScene("bob_main2",0);
+            if(selectAction.triggered)
+            {
+                Debug.Log("Bank");
+                selectBank=true;
+                sceneChanger.ChangeScene("bob_main2",0);
+            }
         }
         // if(col.gameObject.CompareTag("casino"))
         // {
-        //     Debug.Log("casino");
-        //     selectCasino=true;
-        //     //sceneChanger.ChangeScene("casino",0);
+        //     if(selectAction.triggered)
+        //     {
+        //         Debug.Log("casino");
+        //         selectCasino=true;
+        //         //sceneChanger.ChangeScene("casino",0);
+        //     }
         // }
     }
 }
