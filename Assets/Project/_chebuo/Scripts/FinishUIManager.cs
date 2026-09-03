@@ -1,10 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class FinishUIManager : MonoBehaviour
 {
-    [SerializeField]Text gemText;
-    [SerializeField]Text coinText;
+    [SerializeField]TextMeshProUGUI gemText;
+    [SerializeField]TextMeshProUGUI coinText;
 
     [SerializeField]private GameObject clearPanel;
     [SerializeField]private GameObject failPanel;
@@ -31,12 +31,12 @@ public class FinishUIManager : MonoBehaviour
 
     public void ShowGemText()
     {
-        gemText.text=$"GEM: {playerData.gem}";
+        gemText.text=$"{playerData.gem}";
     }
 
     public void ShowCoinText()
     {
-        coinText.text=$"COIN: {playerData.coin}";
+        coinText.text=$"{playerData.coin}";
     }
 
     public void OnClickRetryButton()
