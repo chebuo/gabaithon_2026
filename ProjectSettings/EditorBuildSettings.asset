@@ -17,6 +17,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Project/_chebuo/Scene/SelectScene.unity
     guid: bab50854f2b52a942b1c7c5421d39974
+  - enabled: 1
+    path: Assets/Project/_bob/Scenes/bob_main2.unity
+    guid: 1f1110fec6940e8428ca4463474f3ed1
+  - enabled: 1
+    path: Assets/Project/_uukino/Scene/casino.unity
+    guid: 47c616df8663c4744986906dbb29ffeb
+  - enabled: 1
+    path: Assets/Project/_uukino/Scene/caught.unity
+    guid: 4d060425766318147aee52021973d3ac
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
