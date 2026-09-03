@@ -183,11 +183,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bank
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9ea82b2acc1281468cff37e42ea8e9c, type: 3}
+      propertyPath: m_TagString
+      value: Bank
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e9ea82b2acc1281468cff37e42ea8e9c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 504421197}
   m_SourcePrefab: {fileID: 100100000, guid: e9ea82b2acc1281468cff37e42ea8e9c, type: 3}
+--- !u!1 &504421196 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e9ea82b2acc1281468cff37e42ea8e9c, type: 3}
+  m_PrefabInstance: {fileID: 504421195}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &504421197
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504421196}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.053240005, y: 0.07986002, z: 0.06960001}
+  m_Center: {x: 0.0000000018626451, y: 0.0000000018626451, z: 0.031521004}
 --- !u!1 &881974857
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,11 +709,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: casino_coin
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f128e06f6c16e9e488b2e51f476df2ca, type: 3}
+      propertyPath: m_TagString
+      value: Casino
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f128e06f6c16e9e488b2e51f476df2ca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1875623194}
   m_SourcePrefab: {fileID: 100100000, guid: f128e06f6c16e9e488b2e51f476df2ca, type: 3}
+--- !u!1 &1875623193 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f128e06f6c16e9e488b2e51f476df2ca, type: 3}
+  m_PrefabInstance: {fileID: 1875623192}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1875623194
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875623193}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.2, y: 0.20000017, z: 0.2}
+  m_Center: {x: 0.03, y: 0.1, z: -0.05}
 --- !u!1 &1987102359
 GameObject:
   m_ObjectHideFlags: 0

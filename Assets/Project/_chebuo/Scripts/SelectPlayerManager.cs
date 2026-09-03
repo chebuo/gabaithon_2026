@@ -28,6 +28,11 @@ public class SelectPlayerManager : MonoBehaviour
         SelectLoop().Forget();
     }
 
+    void Enable()
+    {
+        
+    }
+
     private async UniTask SelectLoop()
     {
         var token=destroyCancellationToken;
