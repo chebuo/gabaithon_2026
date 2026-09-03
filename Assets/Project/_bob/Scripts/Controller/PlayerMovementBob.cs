@@ -18,10 +18,13 @@ public class PlayerMovementBob : MonoBehaviour
     private Rigidbody rb;
     private Vector2 moveInput;
     private bool wasMoving;
+    [SerializeField] private Transform camera;
+    [SerializeField] private Vector3 cameraDir;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        rb.useGravity = true;
         if (animator == null)
         {
             animator = GetComponentInChildren<Animator>();
@@ -43,6 +46,7 @@ public class PlayerMovementBob : MonoBehaviour
         }
 
         wasMoving = isMoving;
+        camera.position = transform.position + cameraDir;
     }
 
     private void FixedUpdate()
