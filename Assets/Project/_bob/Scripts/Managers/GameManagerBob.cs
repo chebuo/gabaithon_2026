@@ -1,0 +1,18 @@
+using UnityEngine;
+
+public class GameManagerBob : MonoBehaviour
+{
+    public static GameManagerBob instance;
+    public int money;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        instance = this;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}
