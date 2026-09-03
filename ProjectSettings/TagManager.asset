@@ -4,6 +4,9 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - Bank
+  - Casino
+  - Escape
   - valuables
   - track
   - gopoint
@@ -19,6 +22,8 @@ TagManager:
   - Background
   - invisibablewall
   - entity
+  - SelectObj
+  - 
   - 
   - 
   - 
