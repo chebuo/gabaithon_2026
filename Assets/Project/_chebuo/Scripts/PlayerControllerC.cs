@@ -16,6 +16,7 @@ public class PlayerControllerC : MonoBehaviour
 
     public void Jump(float jumpForce)
     {
+        rb.linearVelocity=new Vector3(rb.linearVelocity.x,0,rb.linearVelocity.z);
         rb.AddForce(Vector3.up*jumpForce,ForceMode.Impulse);
     }
 }

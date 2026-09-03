@@ -14,6 +14,7 @@ public class EscapeGameManager : MonoBehaviour
 
     public EscapeGameState currentState=EscapeGameState.idle;
     [SerializeField]private PlayerData playerData;
+    [SerializeField]private EscapeData escapeData;
 
     void Awake()
     {
@@ -39,6 +40,7 @@ public class EscapeGameManager : MonoBehaviour
             playerManager.isGame=true;
             playerManager.currentState=PlayerStateC.moving;
             currentTime=0;
+            gameTime=escapeData.gameTime;
         }
         playerData.isRevive=false;
     }

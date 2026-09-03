@@ -283,6 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManagerC
   jumpForce: 5
   moveSpeed: 5
+  doubleJump: 1
   inputActions: {fileID: -944628639613478452, guid: 35992700f07d9c64ba4d2f04cab4fdee, type: 3}
   isGame: 1
   bottomR: {fileID: 782236061}
@@ -290,12 +291,14 @@ MonoBehaviour:
   isGround: 0
   isMiss: 0
   isDead: 0
+  isDoubleJump: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   groundCheckDistance: 0.2
   missCheckDistance: 0.2
   currentState: 0
+  escapeData: {fileID: 11400000, guid: 64a12ea8476c0ae4b844045b3c7ca2b4, type: 2}
 --- !u!54 &159847551
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1307,6 +1310,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5912956390661869805, guid: 9332990169e488f4a842b2fe22394a83, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1808300470}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1630,6 +1637,7 @@ MonoBehaviour:
   uiManager: {fileID: 1450307763}
   currentState: 0
   playerData: {fileID: 11400000, guid: fbf9ca1510172694faeb487cfe1bb2a6, type: 2}
+  escapeData: {fileID: 11400000, guid: 64a12ea8476c0ae4b844045b3c7ca2b4, type: 2}
 --- !u!4 &1203762316
 Transform:
   m_ObjectHideFlags: 0
