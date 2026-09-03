@@ -43,6 +43,8 @@ public class ReelSetup : MonoBehaviour
         var slotReel = GetComponent<SlotReel>();
         slotReel.symbolOrder = symbolOrder;
         slotReel.symbolSprites = symbolSprites;
+        slotReel.symbolHeight = symbolHeight;
+        slotReel.visibleCount = visibleCount;
     }
 
     void ArrangeVertically()

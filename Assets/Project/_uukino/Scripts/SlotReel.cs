@@ -12,6 +12,7 @@ public class SlotReel : MonoBehaviour
     public float symbolHeight = 150f;
     public float spinSpeed = 1500f;
     public float snapDuration = 0.25f;
+    public int visibleCount = 3; // 窓に見せるコマ数（ReelSetupから同期される）。停止時にこの中央の行へ結果の絵柄を合わせる
 
     private bool isSpinning = false;
     private float currentOffset = 0f;
@@ -73,7 +74,8 @@ public class SlotReel : MonoBehaviour
 
     System.Collections.IEnumerator SnapToTarget()
     {
-        float targetOffset = targetSymbolIndex * symbolHeight;
+        int centerRow = visibleCount / 2; // 窓の中央の行（visibleCount=3なら1行目=真ん中）に結果の絵柄を合わせる
+        float targetOffset = (targetSymbolIndex - centerRow) * symbolHeight;
         float total = symbolHeight * symbolOrder.Count;
 
         // targetOffsetがcurrentOffsetより手前にならないよう正規化
