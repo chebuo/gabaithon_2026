@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74eade23f1257f94dac1f6db8408786e, type: 3}
+  m_Name: SlotData
+  m_EditorClassIdentifier: Assembly-CSharp::SlotData
+  symbolCount: 6
+  baseAlignChance: 0.05
+  boostedAlignChance: 0.35
+  alignChanceLevelFactor: 0.2
+  alignChanceLevel: 1
+  baseSpinsPerCoin: 15
+  spinsPerCoinLevelStep: 5
+  spinsPerCoinLevel: 1
+  redLampSpinCount: 15
+  baseRedLampTimeSeconds: 50
+  redLampTimeLevelStep: 1.5
+  redLampTimeLevel: 1
+  baseBlackoutDelaySeconds: 5
+  blackoutDelayLevelStep: 1
+  blackoutDelayLevel: 1
