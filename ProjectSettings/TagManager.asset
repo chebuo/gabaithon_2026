@@ -11,6 +11,7 @@ TagManager:
   - track
   - gopoint
   - damageArea
+  - playerattack
   layers:
   - Default
   - TransparentFX

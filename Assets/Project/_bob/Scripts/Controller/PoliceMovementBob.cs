@@ -8,6 +8,7 @@ public class PoliceMovementBob : MonoBehaviour
     public AttackType attackType;
     public Transform target; // 追跡するターゲット（プレイヤー）
     public bool isInBank = false; // 自分自身が銀行内にいるかどうかのフラグ
+    [SerializeField] private int health = 100;
     [SerializeField] private Vector3 targetPosition;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float stoppingDistance = 0.1f;
@@ -21,10 +22,16 @@ public class PoliceMovementBob : MonoBehaviour
     [SerializeField] private float attackAngle = 30f; // プレイヤーを正面に捉えていると判定する角度
     [SerializeField] private GameObject bulletPrefab;
     private float attackDamageSKS = 0;
+    [SerializeField] private float hitKnockbackForce = 3f;
+    [SerializeField] private float deathKnockbackForce = 10f;
+    [SerializeField] private float knockbackDuration = 0.2f;
 
     private Rigidbody rb;
     private float attackCooldownRemaining;
     private Animator animator;
+    private bool isInvincible;
+    private bool isDead;
+    private float knockbackRemaining;
 
     private void Awake()
     {
@@ -37,6 +44,17 @@ public class PoliceMovementBob : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isDead)
+        {
+            return;
+        }
+
+        if (knockbackRemaining > 0f)
+        {
+            knockbackRemaining = Mathf.Max(0f, knockbackRemaining - Time.fixedDeltaTime);
+            return;
+        }
+
         if (attackCooldownRemaining > 0f)
         {
             attackCooldownRemaining = Mathf.Max(0f, attackCooldownRemaining - Time.fixedDeltaTime);
@@ -195,6 +213,70 @@ public class PoliceMovementBob : MonoBehaviour
         velocity.z = 0f;
         rb.linearVelocity = velocity;
         rb.angularVelocity = Vector3.zero;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (isDead || isInvincible || !other.CompareTag("playerattack"))
+        {
+            return;
+        }
+
+        health -= 40;
+        ApplyKnockback(other, hitKnockbackForce);
+
+        if (health <= 0)
+        {
+            Die(other);
+            return;
+        }
+
+        StartCoroutine(InvincibilityRoutine());
+    }
+
+    private IEnumerator InvincibilityRoutine()
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(0.2f);
+        isInvincible = false;
+    }
+
+    private void Die(Collider attackCollider)
+    {
+        animator.SetTrigger("death");
+        isDead = true;
+        StopAllCoroutines();
+        attackCooldownRemaining = 0f;
+
+        if (animator != null)
+        {
+            animator.SetBool("iscooltime", false);
+        }
+
+        StopMovement();
+        rb.constraints &= ~(RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ);
+        ApplyKnockback(attackCollider, deathKnockbackForce);
+        Destroy(gameObject, 2f);
+    }
+
+    private void ApplyKnockback(Collider attackCollider, float force)
+    {
+        Vector3 knockbackDirection = target != null
+            ? transform.position - target.position
+            : transform.position - attackCollider.transform.position;
+        knockbackDirection.y = 0f;
+
+        if (knockbackDirection.sqrMagnitude <= 0f)
+        {
+            knockbackDirection = -attackCollider.transform.forward;
+            knockbackDirection.y = 0f;
+        }
+
+        if (knockbackDirection.sqrMagnitude > 0f)
+        {
+            knockbackRemaining = knockbackDuration;
+            rb.AddForce(knockbackDirection.normalized * force, ForceMode.VelocityChange);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

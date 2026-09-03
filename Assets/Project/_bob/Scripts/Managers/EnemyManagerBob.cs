@@ -3,9 +3,9 @@ using System.Collections;
 
 public class EnemyManagerBob : MonoBehaviour
 {
+    [SerializeField] private Transform enemyContainer;
     [SerializeField] private GameObject policePrefab;
     public int maxPoliceCount = 5;
-    public int currentPoliceCount = 0;
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private Transform playerTransform;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -21,12 +21,17 @@ public class EnemyManagerBob : MonoBehaviour
 
     private IEnumerator SpawnPolice()
     {
-        while (currentPoliceCount < maxPoliceCount)
+        while (true)
         {
-            currentPoliceCount++;
+            if (enemyContainer.childCount >= maxPoliceCount)
+            {
+                yield return null; // 最大数に達している場合は待機
+                continue;
+            }
             int randomIndex = Random.Range(0, spawnPoints.Length);
             Transform spawnPoint = spawnPoints[randomIndex];
             GameObject police = Instantiate(policePrefab, spawnPoint.position, spawnPoint.rotation);
+            police.transform.SetParent(enemyContainer);
             PoliceMovementBob policeMovement = police.GetComponent<PoliceMovementBob>();
             if (policeMovement != null)
             {
