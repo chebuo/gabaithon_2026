@@ -25,7 +25,14 @@ public class FinishUIManager : MonoBehaviour
 
     public void OnClickRetryButton()
     {
-        sceneChanger.ChangeScene("chebuo",0);
+        if (playerData.coin == 0)
+        {
+            playerData.isGameOver=true;
+            sceneChanger.ChangeScene("SelectScene",0);
+            return;
+        }
+        playerData.coin/=2;
+        sceneChanger.ChangeScene("SelectScene",0);
     }
 
     public void OnClickSelectButton()
