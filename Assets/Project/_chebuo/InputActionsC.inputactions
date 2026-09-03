@@ -129,6 +129,28 @@
                 {
                     "name": "",
                     "id": "819adaa3-439e-47be-8463-b5f80638d787",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2dba85a4-2cde-4cd5-838e-6ef5a52c7d08",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "66696d37-cb71-4ec7-b765-c2ce8d80995a",
                     "path": "",
                     "interactions": "",
                     "processors": "",

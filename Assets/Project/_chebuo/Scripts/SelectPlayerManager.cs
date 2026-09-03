@@ -55,7 +55,7 @@ public class SelectPlayerManager : MonoBehaviour
         selectPlayerController.Move(moveInput*moveSpeed);
     }
 
-    private void OnCollisionStay(Collision col)
+    private void OnTriggerStay(Collider col)
     {
         if(col.gameObject.CompareTag("Bank"))
         {
