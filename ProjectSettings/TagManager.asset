@@ -10,6 +10,7 @@ TagManager:
   - valuables
   - track
   - gopoint
+  - damageArea
   layers:
   - Default
   - TransparentFX
@@ -23,8 +24,6 @@ TagManager:
   - invisibablewall
   - entity
   - SelectObj
-  - 
-  - 
   - 
   - 
   - 
