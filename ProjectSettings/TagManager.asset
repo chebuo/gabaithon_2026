@@ -4,6 +4,9 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - Bank
+  - Casino
+  - Escape
   - valuables
   - track
   - gopoint
@@ -17,7 +20,7 @@ TagManager:
   - Ground
   - Player
   - Background
-  - 
+  - SelectObj
   - 
   - 
   - 

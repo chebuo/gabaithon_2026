@@ -13,4 +13,9 @@ public class SelectPlayerController : MonoBehaviour
     {
         rb.linearVelocity=new Vector3(speed.x,rb.linearVelocity.y,speed.y);
     }
+
+    public void CheckSelectObject()
+    {
+        
+    }
 }

@@ -11,8 +11,12 @@ public class SelectPlayerManager : MonoBehaviour
     InputAction moveAction;
     InputAction selectAction;
 
+    public bool selectBank=false;
+    public bool selectCasino=false;
+
     Animator animator;
     SelectPlayerController selectPlayerController;
+    SceneChanger sceneChanger=new SceneChanger();
     void Awake()
     {
         animator=this.GetComponent<Animator>();
@@ -51,4 +55,25 @@ public class SelectPlayerManager : MonoBehaviour
         selectPlayerController.Move(moveInput*moveSpeed);
     }
 
+    private void OnCollisionStay(Collision col)
+    {
+        if(col.gameObject.CompareTag("Bank"))
+        {
+            if(selectAction.triggered)
+            {
+                Debug.Log("Bank");
+                selectBank=true;
+                sceneChanger.ChangeScene("bob_main2",0);
+            }
+        }
+        // if(col.gameObject.CompareTag("casino"))
+        // {
+        //     if(selectAction.triggered)
+        //     {
+        //         Debug.Log("casino");
+        //         selectCasino=true;
+        //         //sceneChanger.ChangeScene("casino",0);
+        //     }
+        // }
+    }
 }
