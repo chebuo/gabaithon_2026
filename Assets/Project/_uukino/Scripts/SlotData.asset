@@ -17,8 +17,8 @@ MonoBehaviour:
   boostedAlignChance: 0.35
   alignChanceLevelFactor: 0.2
   alignChanceLevel: 1
-  baseSpinsPerCoin: 15
-  spinsPerCoinLevelStep: 5
+  baseSpinsPerCoin: 1
+  spinsPerCoinLevelStep: 1
   spinsPerCoinLevel: 1
   redLampSpinCount: 15
   baseRedLampTimeSeconds: 50
@@ -27,3 +27,4 @@ MonoBehaviour:
   baseBlackoutDelaySeconds: 5
   blackoutDelayLevelStep: 1
   blackoutDelayLevel: 1
+  symbolCoinRewards: 090300006f000000de0000004d010000bc01000066fdffff

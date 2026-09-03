@@ -236,6 +236,8 @@ public class SlotMachine : MonoBehaviour
         }
         bool isJackpot = isAligned && results[0] == jackpotSymbolIndex;
 
+        if (isAligned) ApplyCoinReward(results[0]);
+
         if (isJackpot)
         {
             // 7柄が揃った→虹色スポットライトへ切り替え、以降揃いやすくする
@@ -257,6 +259,17 @@ public class SlotMachine : MonoBehaviour
                 SetRainbowActive(false);
             }
         }
+    }
+
+    // 揃った絵柄に応じてPlayerData.coinを増減する（SlotDataのsymbolCoinRewardsで柄ごとに設定）
+    void ApplyCoinReward(int symbolIndex)
+    {
+        if (playerData == null || slotData == null) return;
+
+        int reward = slotData.GetCoinReward(symbolIndex);
+        if (reward == 0) return;
+
+        playerData.coin = Mathf.Max(0, playerData.coin + reward);
     }
 
     void SetRainbowActive(bool active)
