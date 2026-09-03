@@ -3809,6 +3809,7 @@ MonoBehaviour:
   smallWinBlinkDuration: 2
   smallWinBlinkInterval: 0.15
   slotData: {fileID: 11400000, guid: 0ccf1d2e084cbed4f8caf1a7f09a2d0b, type: 2}
+  playerData: {fileID: 11400000, guid: fbf9ca1510172694faeb487cfe1bb2a6, type: 2}
   debugNumberKeysEnabled: 1
   redSpotlight: {fileID: 1342720109}
   transitionButtonObject: {fileID: 813758889}

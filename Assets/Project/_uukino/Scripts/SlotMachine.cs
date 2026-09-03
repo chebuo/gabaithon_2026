@@ -27,6 +27,9 @@ public class SlotMachine : MonoBehaviour
     [Header("設定（確率・コイン・タイムリミット、レベル調整込み）")]
     public SlotData slotData; // symbolCount・確率・1コインのスピン数・赤ランプ発動条件・暗転までの時間を管理するアセット
 
+    [Header("プレイヤーデータ")]
+    public PlayerData playerData; // 遷移ボタンを押したらisClearCasinoをtrueにする
+
     [Header("デバッグ")]
     public bool debugNumberKeysEnabled = true; // 数字キーで絵柄を強制的に揃えるデバッグ機能
 
@@ -61,7 +64,7 @@ public class SlotMachine : MonoBehaviour
     void Start()
     {
         ValidateSymbolConsistency();
-        spinsRemaining = SpinsPerCoin;
+        spinsRemaining = 0; // コインを消費して初めてスピンできる
     }
 
     // 各リールのSymbol Spritesが同じ並び順になっているか確認する（ズレていると同じ番号でも違う絵柄が揃ってしまう）
@@ -126,9 +129,32 @@ public class SlotMachine : MonoBehaviour
 
     public void OnSpinButtonPressed()
     {
-        if (isPlaying || spinsRemaining <= 0) return;
+        if (isPlaying) return;
+
+        if (spinsRemaining <= 0 && !TryConsumeCoin())
+        {
+            Debug.Log("[SlotMachine] コインが足りないためスピンできません");
+            return;
+        }
+
         spinsRemaining--;
         StartCoroutine(PlaySequence());
+    }
+
+    // 残りスピンが0のとき、PlayerData.coinを1枚消費して1コイン分のスピン権を補充する
+    bool TryConsumeCoin()
+    {
+        if (playerData == null)
+        {
+            spinsRemaining = SpinsPerCoin; // PlayerData未設定時はテスト用に無制限で補充
+            return true;
+        }
+
+        if (playerData.coin <= 0) return false;
+
+        playerData.coin--;
+        spinsRemaining = SpinsPerCoin;
+        return true;
     }
 
     // forcedSymbol を指定すると、抽選を無視して全リールをその絵柄で揃える（デバッグ用）
@@ -257,6 +283,8 @@ public class SlotMachine : MonoBehaviour
     public void OnTransitionButtonPressed()
     {
         transitionButtonPressed = true;
+
+        if (playerData != null) playerData.isClearCasino = true;
 
         if (redBlinkCoroutine != null)
         {
