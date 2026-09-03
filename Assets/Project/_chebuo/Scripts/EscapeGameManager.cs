@@ -4,15 +4,16 @@ using Cysharp.Threading.Tasks;
 public class EscapeGameManager : MonoBehaviour
 {
     public float gameTime=180;
-    private float currentTime=0;
+    public static float currentTime=0;
 
-    public bool isClear=false;
+    public static bool isClear=false;
 
     SceneChanger sceneChanger=new SceneChanger();
     [SerializeField]PlayerManagerC playerManager;
     [SerializeField]UIManagerC uiManager;
 
     public EscapeGameState currentState=EscapeGameState.idle;
+    [SerializeField]private PlayerData playerData;
 
     void Awake()
     {
@@ -21,7 +22,25 @@ public class EscapeGameManager : MonoBehaviour
 
     void Start()
     {
+        Init();
+        playerData.isRevive=false;
         GameLoop().Forget();
+    }
+
+    public void Init()
+    {
+        if(playerData.isRevive)
+        {
+            playerManager.isGame=true;
+            playerManager.currentState=PlayerStateC.moving;
+        }
+        else
+        {
+            playerManager.isGame=true;
+            playerManager.currentState=PlayerStateC.moving;
+            currentTime=0;
+        }
+        playerData.isRevive=false;
     }
 
     private async UniTask GameLoop()
@@ -41,7 +60,8 @@ public class EscapeGameManager : MonoBehaviour
     {
         Debug.Log(isClear);
         
-        sceneChanger.ChangeScene("FailEscape",0);
+        sceneChanger.ChangeScene("FinishEscape",0);
+        await UniTask.Yield();
     }
 
     public void PauseGame()
