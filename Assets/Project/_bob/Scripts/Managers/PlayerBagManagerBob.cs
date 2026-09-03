@@ -13,7 +13,7 @@ public class PlayerBagManagerBob : MonoBehaviour
 
     private PlayerMovementBob playerMovement;
     [SerializeField] private GameObject goldBar;
-    [SerializeField] private Vector3 sendpos;
+    [SerializeField] private Vector3 throwpower;
 
     private void Awake()
     {
@@ -56,7 +56,12 @@ public class PlayerBagManagerBob : MonoBehaviour
             delTimer += Time.deltaTime;
             if (delTimer >= 0.2f && value > 0)
             {
-                Instantiate(goldBar, sendpos + new Vector3(UnityEngine.Random.Range(-0.2f, 0.2f), UnityEngine.Random.Range(-0.2f, 0.2f), UnityEngine.Random.Range(-0.2f, 0.2f)), Quaternion.identity);
+                GameObject gold;
+                gold = Instantiate(goldBar);
+                gold.transform.localScale = gold.transform.localScale * 0.7f;
+                gold.transform.position = transform.position + transform.up * 1.5f;
+                Rigidbody goldRb = gold.GetComponent<Rigidbody>();
+                goldRb.AddForce(throwpower + new Vector3(UnityEngine.Random.Range(-0.2f, 0.2f), 0f, 0f), ForceMode.Impulse);
                 value -= 1;
                 UIManagerBob.Instance.SetBag(value, Color.white);
                 score += 1;

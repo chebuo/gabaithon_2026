@@ -8,12 +8,25 @@ public class PlayerMovementBob : MonoBehaviour
     [SerializeField, Tooltip("水平方向の移動速度 (m/s)")]
     public float moveSpeed = 5f;
 
+    [Header("回転設定")]
+    [SerializeField, Tooltip("移動キーを押していない間に回転を止める強さ")]
+    private float rotationStopStrength = 10f;
+
+    [SerializeField]
+    private Animator animator;
+
     private Rigidbody rb;
     private Vector2 moveInput;
+    private bool wasMoving;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        if (animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+        }
+
         // 回転で転がってしまうのを防ぎたい場合はInspectorのConstraintsで
         // Freeze Rotation X/Zを設定するか、以下を有効にしてください。
         // rb.freezeRotation = true;
@@ -22,13 +35,31 @@ public class PlayerMovementBob : MonoBehaviour
     private void Update()
     {
         moveInput = ReadMoveInput();
+
+        bool isMoving = moveInput.sqrMagnitude > 0f;
+        if (isMoving != wasMoving && animator != null)
+        {
+            animator.SetTrigger(isMoving ? "startrun" : "stop");
+        }
+
+        wasMoving = isMoving;
     }
 
     private void FixedUpdate()
     {
-        // カメラ・ワールド基準ではなく、自身の向き基準でXZ平面移動ベクトルを作成
+        // 入力をワールド基準のXZ平面移動ベクトルに変換
         Vector3 move = new Vector3(moveInput.x, 0f, moveInput.y);
-        move = transform.TransformDirection(move) * moveSpeed;
+        move *= moveSpeed;
+
+        if (move.sqrMagnitude > 0f)
+        {
+            rb.MoveRotation(Quaternion.LookRotation(move));
+        }
+        else
+        {
+            // 停止中は現在の回転速度と逆向きのトルクを加えて徐々に回転を止める
+            rb.AddTorque(-rb.angularVelocity * rotationStopStrength, ForceMode.Acceleration);
+        }
 
         // Y方向の速度(重力・ジャンプ等)は維持しつつ、水平方向のみ書き換える
         Vector3 velocity = rb.linearVelocity;
