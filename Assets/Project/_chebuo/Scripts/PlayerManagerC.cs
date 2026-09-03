@@ -6,6 +6,7 @@ public class PlayerManagerC : MonoBehaviour
 {
     public float jumpForce;
     public float moveSpeed;
+    public int doubleJump;
 
     [SerializeField]private InputActionAsset inputActions;
     InputAction jumpAction;
@@ -16,6 +17,7 @@ public class PlayerManagerC : MonoBehaviour
     public bool isGround=false;
     public bool isMiss=false;
     public bool isDead=false;
+    public bool isDoubleJump=false;
     [SerializeField]private LayerMask groundLayer;
     [SerializeField]private float groundCheckDistance=0.1f;
     [SerializeField]private float missCheckDistance=0.1f;
@@ -23,12 +25,15 @@ public class PlayerManagerC : MonoBehaviour
 
     PlayerControllerC playerController;
     Animator animator;
+    [SerializeField]private EscapeData escapeData;
     void Awake()
     {
         playerController=this.GetComponent<PlayerControllerC>();
         animator=this.GetComponent<Animator>();
         jumpAction=inputActions.FindAction("Jump");
         jumpAction.Enable();
+        jumpForce=escapeData.jumpForce;
+        doubleJump=escapeData.doubleJump;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -72,9 +77,10 @@ public class PlayerManagerC : MonoBehaviour
 
     private void CheckInput()
     {
-        if (jumpAction.WasPressedThisFrame()&&isGround)
+        if (jumpAction.WasPressedThisFrame())
         {
-            Jump();
+            if(isGround)Jump();
+            else DoubleJump();
         }
     }
 
@@ -91,6 +97,14 @@ public class PlayerManagerC : MonoBehaviour
     public void Jump()
     {
         playerController.Jump(jumpForce);
+    }
+
+    public void DoubleJump()
+    {
+        if(!isGround&&!isDoubleJump&&doubleJump>0){
+            playerController.Jump(jumpForce);
+            isDoubleJump=true;
+        }
     }
 
     public void AllCheck()
@@ -117,9 +131,10 @@ public class PlayerManagerC : MonoBehaviour
             groundLayer
         );
         isGround=isHitR||isHitL;
+        if(isGround)isDoubleJump=false;
         animator.SetBool("isGround",isGround);
     }
-
+    
     public void CheckMiss()
     {
         bool isHitR=Physics.Raycast(
