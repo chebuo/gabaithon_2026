@@ -67,15 +67,15 @@ public class SelectPlayerManager : MonoBehaviour
                 sceneChanger.ChangeScene("bob_main2",0);
             }
         }
-        // if(col.gameObject.CompareTag("casino"))
-        // {
-        //     if(selectAction.triggered)
-        //     {
-        //         Debug.Log("casino");
-        //         selectCasino=true;
-        //         //sceneChanger.ChangeScene("casino",0);
-        //     }
-        // }
+        if(col.gameObject.CompareTag("Casino"))
+        {
+            if(selectAction.triggered)
+            {
+                Debug.Log("casino");
+                selectCasino=true;
+                sceneChanger.ChangeScene("casino",0);
+            }
+        }
         if(col.gameObject.CompareTag("Escape")){
             Debug.Log("escape!!");
             if(selectAction.triggered){
