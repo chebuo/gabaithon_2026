@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d96cfede65d3d4246990972a9e3afa80, type: 3}
   m_Name: EscapeData
   m_EditorClassIdentifier: Assembly-CSharp::EscapeData
-  jumpForce: 5
-  gameTime: 180
-  doubleJump: 0
+  jumpForceLevel: 1
+  gameTimeLevel: 1
+  doubleJumpLevel: 1

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f6a6ea3a878b764da4c72d7613674c0, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
-  gem: 0
-  coin: 6040
-  isGameOver: 0
+  gem: 60
+  coin: 6076
+  isGameOver: 1
   isRevive: 0
   ReviveCost: 10
-  isClearBank: 0
+  isClearBank: 1
   isClearCasino: 0
   isClearEscape: 0

@@ -1632,6 +1632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a561bee8148485448b4f1ae8d528058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EscapeGameManager
+  baseGameTime: 20
   gameTime: 400
   playerManager: {fileID: 159847550}
   uiManager: {fileID: 1450307763}
@@ -1815,9 +1816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManagerC
   pausePanel: {fileID: 1197094359}
-  timeText: {fileID: 0}
-  coinText: {fileID: 0}
-  playerData: {fileID: 11400000, guid: fbf9ca1510172694faeb487cfe1bb2a6, type: 2}
+  timeText: {fileID: 213708829}
 --- !u!4 &1450307764
 Transform:
   m_ObjectHideFlags: 0
