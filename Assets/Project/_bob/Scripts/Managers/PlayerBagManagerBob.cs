@@ -51,6 +51,18 @@ public class PlayerBagManagerBob : MonoBehaviour
     // 納品処理（トリガー内に留まっている時）
     private void OnTriggerStay(Collider other)
     {
+        if (other.gameObject.tag == "valuables")
+        {
+            if (value >= bagCapacity)
+            {
+                UIManagerBob.Instance.SetBag(value, Color.red);
+                return;
+            }
+            value += 1;
+            UIManagerBob.Instance.SetBag(value, Color.white);
+            playerMovement.moveSpeed -= 0.2f;
+            Destroy(other.gameObject);
+        }
         if (other.gameObject.tag == "track")
         {
             delTimer += Time.deltaTime;
