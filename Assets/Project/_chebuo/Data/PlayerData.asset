@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f6a6ea3a878b764da4c72d7613674c0, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
-  gem: 10
+  gem: 0
   coin: 100
+  isRevive: 0
+  ReviveCost: 10
