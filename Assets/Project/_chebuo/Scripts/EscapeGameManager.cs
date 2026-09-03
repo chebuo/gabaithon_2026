@@ -3,8 +3,8 @@ using Cysharp.Threading.Tasks;
 
 public class EscapeGameManager : MonoBehaviour
 {
-    private int baseGameTime=180;
-    public float gameTime=180;
+    public int baseGameTime=180;
+    private float gameTime=180;
     public static float currentTime=0;
 
     public static bool isClear=false;
@@ -41,7 +41,7 @@ public class EscapeGameManager : MonoBehaviour
             playerManager.isGame=true;
             playerManager.currentState=PlayerStateC.moving;
             currentTime=0;
-            gameTime=baseGameTime-(escapeData.gameTimeLevel-1)*2;
+            gameTime=Mathf.Max(30, baseGameTime - (escapeData.gameTimeLevel - 1) * 2);
         }
         playerData.isRevive=false;
     }
@@ -93,7 +93,7 @@ public class EscapeGameManager : MonoBehaviour
         {
             if (currentState == EscapeGameState.playing)
             {
-                uiManager.ShowTimeText((int)currentTime);
+                uiManager.ShowTimeText((int)baseGameTime,(int)currentTime);
                 await UniTask.Delay(1000);
                 currentTime++;
             }
