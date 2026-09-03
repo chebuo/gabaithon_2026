@@ -18,6 +18,7 @@ public class SelectPlayerManager : MonoBehaviour
     Animator animator;
     SelectPlayerController selectPlayerController;
     SceneChanger sceneChanger=new SceneChanger();
+    [SerializeField]private PlayerData playerData;
     void Awake()
     {
         animator=this.GetComponent<Animator>();
@@ -58,7 +59,7 @@ public class SelectPlayerManager : MonoBehaviour
 
     private void OnCollisionStay(Collision col)
     {
-        if(col.gameObject.CompareTag("Bank"))
+        if(col.gameObject.CompareTag("Bank")&&playerData.isClearBank==false&&playerData.isClearCasino==false&&playerData.isClearEscape==false)
         {
             if(selectAction.triggered)
             {
@@ -67,7 +68,7 @@ public class SelectPlayerManager : MonoBehaviour
                 sceneChanger.ChangeScene("bob_main2",0);
             }
         }
-        if(col.gameObject.CompareTag("Casino"))
+        if(col.gameObject.CompareTag("Casino")&&playerData.isClearBank==true&&playerData.isClearCasino==false&&playerData.isClearEscape==false)
         {
             if(selectAction.triggered)
             {
@@ -76,7 +77,7 @@ public class SelectPlayerManager : MonoBehaviour
                 sceneChanger.ChangeScene("casino",0);
             }
         }
-        if(col.gameObject.CompareTag("Escape")){
+        if(col.gameObject.CompareTag("Escape")&&playerData.isClearBank==true&&playerData.isClearCasino==true&&playerData.isClearEscape==false){
             Debug.Log("escape!!");
             if(selectAction.triggered){
                 Debug.Log("Escape");

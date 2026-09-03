@@ -3,9 +3,6 @@ using TMPro;
 
 public class FinishUIManager : MonoBehaviour
 {
-    [SerializeField]TextMeshProUGUI gemText;
-    [SerializeField]TextMeshProUGUI coinText;
-
     [SerializeField]private GameObject clearPanel;
     [SerializeField]private GameObject failPanel;
     [SerializeField]private GameObject warningPanel;
@@ -25,21 +22,9 @@ public class FinishUIManager : MonoBehaviour
             clearPanel.SetActive(false);
             failPanel.SetActive(true);
         }
-        ShowGemText();
-        ShowCoinText();
     }
 
-    public void ShowGemText()
-    {
-        gemText.text=$"{playerData.gem}";
-    }
-
-    public void ShowCoinText()
-    {
-        coinText.text=$"{playerData.coin}";
-    }
-
-    public void OnClickRetryButton()
+    public void OnClickRetryButton()//GameOver時に押すボタン
     {
         if (playerData.coin == 0)
         {
@@ -51,12 +36,15 @@ public class FinishUIManager : MonoBehaviour
         sceneChanger.ChangeScene("SelectScene",0);
     }
 
-    public void OnClickSelectButton()
+    public void OnClickSelectButton()//GameClear時に押すボタン
     {
+        playerData.isClearBank=false;
+        playerData.isClearCasino=false;
+        playerData.isClearEscape=false;
         sceneChanger.ChangeScene("SelectScene",0);
     }
 
-    public void OnClickRiviveButton()
+    public void OnClickRiviveButton()//GameOver時に押す復活ボタン
     {
         if(playerData.gem>=playerData.ReviveCost)
         {
@@ -71,7 +59,7 @@ public class FinishUIManager : MonoBehaviour
         }
     }
 
-    public void OnClickCloseButton()
+    public void OnClickCloseButton()//GameOver時に押す復活警告パネルの閉じるボタン
     {
         warningPanel.SetActive(false);
     }
