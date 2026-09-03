@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SlotData", menuName = "Scriptable Objects/SlotData")]
@@ -31,6 +32,16 @@ public class SlotData : ScriptableObject
     [Tooltip("レベルが1つ上がるごとに加算される秒数")]
     public float blackoutDelayLevelStep = 1f;
     public int blackoutDelayLevel = 1; // 1がデフォルト
+
+    [Header("柄ごとのコイン増減（そろったとき）")]
+    [Tooltip("インデックスが絵柄番号に対応。symbolCountと同じ数だけ要素を用意してください（正の値で増加、負の値で減少）")]
+    public List<int> symbolCoinRewards = new List<int>();
+
+    public int GetCoinReward(int symbolIndex)
+    {
+        if (symbolIndex < 0 || symbolIndex >= symbolCoinRewards.Count) return 0;
+        return symbolCoinRewards[symbolIndex];
+    }
 
     public float AlignChanceMultiplier => Mathf.Pow(alignChanceLevelFactor, Mathf.Max(0, alignChanceLevel - 1));
     public float FinalBaseAlignChance => Mathf.Clamp01(baseAlignChance * AlignChanceMultiplier);
