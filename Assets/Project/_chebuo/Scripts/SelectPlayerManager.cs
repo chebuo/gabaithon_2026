@@ -8,6 +8,8 @@ public class SelectPlayerManager : MonoBehaviour
 
     [SerializeField]private InputActionAsset inputActions;
 
+    [SerializeField]GameObject[] bikkuris;
+
     InputAction moveAction;
     InputAction selectAction;
 
@@ -40,6 +42,7 @@ public class SelectPlayerManager : MonoBehaviour
         while (true)
         {
             Move();
+            ShowBikkuri();
             if(selectAction.triggered)
             {
                 Debug.Log("Select");
@@ -55,6 +58,28 @@ public class SelectPlayerManager : MonoBehaviour
         else animator.SetBool("isMove",true);
         selectPlayerController.ChangeDir(moveInput);
         selectPlayerController.Move(moveInput*moveSpeed);
+    }
+
+    public void ShowBikkuri()
+    {
+        if(playerData.isClearBank==false&&playerData.isClearCasino==false&&playerData.isClearEscape==false)
+        {
+            bikkuris[0].SetActive(true);
+            bikkuris[1].SetActive(false);
+            bikkuris[2].SetActive(false);
+        }
+        else if(playerData.isClearBank==true&&playerData.isClearCasino==false&&playerData.isClearEscape==false)
+        {
+            bikkuris[0].SetActive(false);
+            bikkuris[1].SetActive(true);
+            bikkuris[2].SetActive(false);
+        }
+        else if(playerData.isClearBank==true&&playerData.isClearCasino==true&&playerData.isClearEscape==false)
+        {
+            bikkuris[0].SetActive(false);
+            bikkuris[1].SetActive(false);
+            bikkuris[2].SetActive(true);
+        }
     }
 
     private void OnCollisionStay(Collision col)
@@ -86,4 +111,5 @@ public class SelectPlayerManager : MonoBehaviour
             }
         }
     }
+
 }

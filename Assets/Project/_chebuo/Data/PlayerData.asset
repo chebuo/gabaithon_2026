@@ -14,5 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   gem: 0
   coin: 100
+  isGameOver: 0
   isRevive: 0
   ReviveCost: 10
+  isClearBank: 0
+  isClearCasino: 0
+  isClearEscape: 0
