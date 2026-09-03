@@ -939,6 +939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae0cf66ead607c44e8a1b36e32891a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SelectPlayerController
+  playerModel: {fileID: 2008580024}
 --- !u!1 &1627990881
 GameObject:
   m_ObjectHideFlags: 0
@@ -1060,15 +1061,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7672140454922491604, guid: 7b4a5982078d8084d8ee2e4d385ad850, type: 3}
       propertyPath: m_LocalScale.x
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7672140454922491604, guid: 7b4a5982078d8084d8ee2e4d385ad850, type: 3}
       propertyPath: m_LocalScale.y
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7672140454922491604, guid: 7b4a5982078d8084d8ee2e4d385ad850, type: 3}
       propertyPath: m_LocalScale.z
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7672140454922491604, guid: 7b4a5982078d8084d8ee2e4d385ad850, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1379,6 +1380,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 32.29, y: 0, z: 0}
+--- !u!1 &2008580024 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7036213049465896255, guid: 11b002f8b31f82541ad0c1d8e45c529d, type: 3}
+  m_PrefabInstance: {fileID: 1553333371}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2053834369
 GameObject:
   m_ObjectHideFlags: 0

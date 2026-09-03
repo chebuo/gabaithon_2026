@@ -1,7 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FinishUIManager : MonoBehaviour
 {
+    [SerializeField]Text gemText;
+    [SerializeField]Text coinText;
+
     [SerializeField]private GameObject clearPanel;
     [SerializeField]private GameObject failPanel;
     [SerializeField]private GameObject warningPanel;
@@ -21,6 +25,18 @@ public class FinishUIManager : MonoBehaviour
             clearPanel.SetActive(false);
             failPanel.SetActive(true);
         }
+        ShowGemText();
+        ShowCoinText();
+    }
+
+    public void ShowGemText()
+    {
+        gemText.text=$"GEM: {playerData.gem}";
+    }
+
+    public void ShowCoinText()
+    {
+        coinText.text=$"COIN: {playerData.coin}";
     }
 
     public void OnClickRetryButton()

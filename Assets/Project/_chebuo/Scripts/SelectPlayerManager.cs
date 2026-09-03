@@ -52,6 +52,7 @@ public class SelectPlayerManager : MonoBehaviour
         var moveInput=moveAction.ReadValue<Vector2>();
         if(moveInput==Vector2.zero)animator.SetBool("isMove",false);
         else animator.SetBool("isMove",true);
+        selectPlayerController.ChangeDir(moveInput);
         selectPlayerController.Move(moveInput*moveSpeed);
     }
 
