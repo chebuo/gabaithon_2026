@@ -8,6 +8,7 @@ public class UIManagerBob : MonoBehaviour
     [SerializeField] private TMP_Text goalScore;
     [SerializeField] private TMP_Text bag;
     [SerializeField] private TMP_Text message;
+    [SerializeField] private TMP_Text health;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -50,5 +51,17 @@ public class UIManagerBob : MonoBehaviour
         // ダイアログ表示処理を実装する
         message.text = s;
         message.color = c;
+    }
+    public void SetHealth(int n)
+    {
+        health.text = "HP: " + n.ToString();
+        if (n > 30)
+        {
+            health.color = Color.white;
+        }
+        else
+        {
+            health.color = Color.red;
+        }
     }
 }

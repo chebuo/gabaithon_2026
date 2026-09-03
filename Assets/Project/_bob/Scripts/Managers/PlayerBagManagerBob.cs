@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Threading.Tasks;
 
 public class PlayerBagManagerBob : MonoBehaviour
 {
+    [SerializeField] private PlayerData playerData;
     [Header("スコア・バッグ設定")]
     public int value = 0;
     public int bagCapacity = 5;
@@ -10,6 +12,7 @@ public class PlayerBagManagerBob : MonoBehaviour
     private int score = 0;
     private float delTimer = 0f;
     private bool isCleared = false;
+    private bool isInvincible = false;
 
     private PlayerMovementBob playerMovement;
     [SerializeField] private GameObject goldBar;
@@ -78,17 +81,21 @@ public class PlayerBagManagerBob : MonoBehaviour
                 UIManagerBob.Instance.SetBag(value, Color.white);
                 GameManagerBob.instance.money += 1;
                 score += 1;
-                if (GameManagerBob.instance.money >= goalScore)
+                if (score >= goalScore)
                 {
-                    UIManagerBob.Instance.SetScore(GameManagerBob.instance.money, Color.green);
+                    UIManagerBob.Instance.SetScore(score, Color.green);
                 }
                 else
                 {
-                    UIManagerBob.Instance.SetScore(GameManagerBob.instance.money, Color.white);
+                    UIManagerBob.Instance.SetScore(score, Color.white);
                 }
                 playerMovement.moveSpeed += 0.2f;
                 delTimer = 0f;
             }
+        }
+        if (other.gameObject.tag == "damageArea" && !isInvincible)
+        {
+            GetDamage();
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -104,6 +111,10 @@ public class PlayerBagManagerBob : MonoBehaviour
                 UIManagerBob.Instance.ShowDialog("you need more score", Color.red);
             }
         }
+        if (other.gameObject.tag == "Bank")
+        {
+            GameManagerBob.instance.isPlayerInBank = true;
+        }
     }
     public void OnTriggerExit(Collider other)
     {
@@ -112,10 +123,24 @@ public class PlayerBagManagerBob : MonoBehaviour
             UIManagerBob.Instance.ShowDialog("", Color.white);
             isCleared = false;
         }
+        if (other.gameObject.tag == "Bank")
+        {
+            GameManagerBob.instance.isPlayerInBank = false;
+        }
     }
     public void GameClear()
     {
         // ゲームクリア処理を実装する
         Debug.Log("Game Clear!");
+        playerData.coin = GameManagerBob.instance.money;
+    }
+    async void GetDamage()
+    {
+        GameManagerBob.instance.playerHealth -= 10;
+        UIManagerBob.Instance.SetHealth(GameManagerBob.instance.playerHealth);
+        isInvincible = true;
+        UIManagerBob.Instance.SetHealth(GameManagerBob.instance.playerHealth);
+        await Task.Delay(1000);
+        isInvincible = false;
     }
 }
