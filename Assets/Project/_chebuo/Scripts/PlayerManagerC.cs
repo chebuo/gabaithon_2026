@@ -32,8 +32,8 @@ public class PlayerManagerC : MonoBehaviour
         animator=this.GetComponent<Animator>();
         jumpAction=inputActions.FindAction("Jump");
         jumpAction.Enable();
-        jumpForce=escapeData.jumpForce;
-        doubleJump=escapeData.doubleJump;
+        jumpForce=5+escapeData.jumpForceLevel;
+        doubleJump=escapeData.doubleJumpLevel;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

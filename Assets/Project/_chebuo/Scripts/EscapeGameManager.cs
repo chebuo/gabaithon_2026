@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 
 public class EscapeGameManager : MonoBehaviour
 {
+    private int baseGameTime=180;
     public float gameTime=180;
     public static float currentTime=0;
 
@@ -40,7 +41,7 @@ public class EscapeGameManager : MonoBehaviour
             playerManager.isGame=true;
             playerManager.currentState=PlayerStateC.moving;
             currentTime=0;
-            gameTime=escapeData.gameTime;
+            gameTime=baseGameTime-(escapeData.gameTimeLevel-1)*2;
         }
         playerData.isRevive=false;
     }
