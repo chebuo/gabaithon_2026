@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class UIManagerC : MonoBehaviour
 {
     public GameObject pausePanel;
-    [SerializeField]private Text timeText;
-    [SerializeField]private Text coinText;
+    [SerializeField]private TextMeshProUGUI timeText;
+    [SerializeField]private TextMeshProUGUI coinText;
 
     [SerializeField]private PlayerData playerData;
 
@@ -17,12 +17,12 @@ public class UIManagerC : MonoBehaviour
 
     public void ShowTimeText(int currentTime)
     {
-        timeText.text=$"TIME:{currentTime.ToString()}";
+        timeText.text=$"TIME:{currentTime}";
     }
 
     public void ShowCoinText()
     {
-        coinText.text=$"COIN:{playerData.coin.ToString()}";
+        coinText.text=$"{playerData.coin}";
     }
 
 
