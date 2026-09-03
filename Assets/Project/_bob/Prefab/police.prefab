@@ -610,7 +610,7 @@ MonoBehaviour:
   attackRengeSKS: 3
   attackAngle: 30
   bulletPrefab: {fileID: 4036770502317157084, guid: 203da99779b11cf4f86a19221a741aed, type: 3}
-  hitKnockbackForce: 3
+  hitKnockbackForce: 5
   deathKnockbackForce: 7
   knockbackDuration: 0.2
 --- !u!4 &5617672686760068847 stripped

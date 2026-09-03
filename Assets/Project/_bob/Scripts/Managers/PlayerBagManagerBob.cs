@@ -13,6 +13,7 @@ public class PlayerBagManagerBob : MonoBehaviour
     private float delTimer = 0f;
     private bool isCleared = false;
     private bool isInvincible = false;
+    [SerializeField] private GoutouData goutouData;
 
     private PlayerMovementBob playerMovement;
     [SerializeField] private GameObject goldBar;
@@ -25,6 +26,7 @@ public class PlayerBagManagerBob : MonoBehaviour
     private void Start()
     {
         UIManagerBob.Instance.SetGoalScore(goalScore);
+        bagCapacity = 8 + goutouData.maxItemLevel;
     }
     private void Update()
     {
@@ -133,10 +135,15 @@ public class PlayerBagManagerBob : MonoBehaviour
         // ゲームクリア処理を実装する
         Debug.Log("Game Clear!");
         playerData.coin = GameManagerBob.instance.money;
+        playerData.isClearBank = true;
     }
     async void GetDamage()
     {
         GameManagerBob.instance.playerHealth -= 10;
+        if (GameManagerBob.instance.playerHealth <= 0)
+        {
+            playerData.isGameOver = true;
+        }
         UIManagerBob.Instance.SetHealth(GameManagerBob.instance.playerHealth);
         isInvincible = true;
         UIManagerBob.Instance.SetHealth(GameManagerBob.instance.playerHealth);

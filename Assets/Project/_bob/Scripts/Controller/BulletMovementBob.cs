@@ -7,6 +7,10 @@ public class BulletMovementBob : MonoBehaviour
     void Start()
     {
         Invoke("DestroyBullet", 5f); // 5秒後に弾を破壊
+        if (gameObject.tag == "playerattack")
+        {
+            moveSpeed = 20f;
+        }
     }
 
     // Update is called once per frame
