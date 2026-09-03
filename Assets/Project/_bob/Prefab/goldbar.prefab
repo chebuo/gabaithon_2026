@@ -73,6 +73,10 @@ PrefabInstance:
       value: goldbar
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f8b9bd2f2b9e22344a0fc86697be53c0, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f8b9bd2f2b9e22344a0fc86697be53c0, type: 3}
       propertyPath: m_TagString
       value: valuables
       objectReference: {fileID: 0}
