@@ -5,6 +5,7 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovementBob : MonoBehaviour
 {
+    [SerializeField] private GoutouData goutouData;
     [Header("移動設定")]
     [SerializeField, Tooltip("水平方向の移動速度 (m/s)")]
     public float moveSpeed = 5f;
@@ -27,6 +28,7 @@ public class PlayerMovementBob : MonoBehaviour
     [SerializeField] private GameObject gun;
     [SerializeField] private GameObject meleeWeapon;
     [SerializeField] private bool isShootable = true;
+    [SerializeField] private GunData[] gunDataArray;
     [SerializeField] private int shotDelay = 500;
     [SerializeField] private int shotCount = 1;
     [SerializeField] private GameObject bulletPrefab;
@@ -49,6 +51,21 @@ public class PlayerMovementBob : MonoBehaviour
         // Freeze Rotation X/Zを設定するか、以下を有効にしてください。
         // rb.freezeRotation = true;
     }
+    private void Start()
+    {
+        moveSpeed = 4.5f + goutouData.moveSpeedLevel * 0.5f;
+        attackCooldownTime = (int)(500 * Mathf.Pow(0.9f, goutouData.attackCoolDownLevel-1));
+        attackTime = (int)(200 * Mathf.Pow(0.9f, goutouData.attackCoolDownLevel-1));
+        if (goutouData.gunLevel <= 0)
+        {
+            isShootable = false;
+        }
+        else
+        {
+            shotDelay = gunDataArray[goutouData.gunLevel-1].delay;
+            shotCount = gunDataArray[goutouData.gunLevel-1].shotCount;
+        }
+    }
 
     private void Update()
     {
@@ -57,7 +74,7 @@ public class PlayerMovementBob : MonoBehaviour
         bool isMoving = moveInput.sqrMagnitude > 0f;
         if (isMoving != wasMoving && animator != null)
         {
-            animator.SetTrigger(isMoving ? "startrun" : "stop");
+            animator.SetBool("isRunning", isMoving);
         }
 
         wasMoving = isMoving;
@@ -105,6 +122,7 @@ public class PlayerMovementBob : MonoBehaviour
             if (attackCooldownRemaining <= 0f && animator != null)
             {
                 animator.SetBool("cooltime", false);
+                animator.SetBool("ispanch", false);
             }
 
             return;
@@ -149,7 +167,7 @@ public class PlayerMovementBob : MonoBehaviour
         if (animator != null)
         {
             animator.SetBool("aim", false);
-            animator.SetTrigger("panch");
+            animator.SetBool("ispanch", true);
             animator.SetBool("cooltime", true);
         }
 
@@ -181,14 +199,20 @@ public class PlayerMovementBob : MonoBehaviour
         {
             return;
         }
+        if (goutouData.bulletLeft < shotCount)
+        {
+            Debug.Log("Not enough bullets to shoot.");
+            return;
+        }
 
         float spreadStep = shotCount > 1 ? 30f / (shotCount - 1) : 0f;
         float spreadStart = -15f;
         for (int i = 0; i < shotCount; i++)
         {
+            goutouData.bulletLeft -= 1;
             float angle = shotCount > 1 ? spreadStart + spreadStep * i : 0f;
             Quaternion rotation = transform.rotation * Quaternion.Euler(0f, angle, 0f);
-            GameObject bullet = Instantiate(bulletPrefab, transform.position + rotation * Vector3.forward, rotation);
+            GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + transform.up * 1.4f, rotation);
             bullet.transform.tag = "playerattack";
         }
     }
