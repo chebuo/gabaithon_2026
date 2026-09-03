@@ -76,14 +76,15 @@ public class PlayerBagManagerBob : MonoBehaviour
                 goldRb.AddForce(throwpower + new Vector3(UnityEngine.Random.Range(-0.2f, 0.2f), 0f, 0f), ForceMode.Impulse);
                 value -= 1;
                 UIManagerBob.Instance.SetBag(value, Color.white);
+                GameManagerBob.instance.money += 1;
                 score += 1;
-                if (score >= goalScore)
+                if (GameManagerBob.instance.money >= goalScore)
                 {
-                    UIManagerBob.Instance.SetScore(score, Color.green);
+                    UIManagerBob.Instance.SetScore(GameManagerBob.instance.money, Color.green);
                 }
                 else
                 {
-                    UIManagerBob.Instance.SetScore(score, Color.white);
+                    UIManagerBob.Instance.SetScore(GameManagerBob.instance.money, Color.white);
                 }
                 playerMovement.moveSpeed += 0.2f;
                 delTimer = 0f;
