@@ -13,6 +13,7 @@ public class SelectPlayerManager : MonoBehaviour
 
     public bool selectBank=false;
     public bool selectCasino=false;
+    public bool selectEscape=false;
 
     Animator animator;
     SelectPlayerController selectPlayerController;
@@ -49,7 +50,6 @@ public class SelectPlayerManager : MonoBehaviour
     private void Move()
     {
         var moveInput=moveAction.ReadValue<Vector2>();
-        Debug.Log(moveInput);
         if(moveInput==Vector2.zero)animator.SetBool("isMove",false);
         else animator.SetBool("isMove",true);
         selectPlayerController.Move(moveInput*moveSpeed);
@@ -75,5 +75,13 @@ public class SelectPlayerManager : MonoBehaviour
         //         //sceneChanger.ChangeScene("casino",0);
         //     }
         // }
+        if(col.gameObject.CompareTag("Escape")){
+            Debug.Log("escape!!");
+            if(selectAction.triggered){
+                Debug.Log("Escape");
+                selectEscape=true;
+                sceneChanger.ChangeScene("chebuo",0);
+            }
+        }
     }
 }
