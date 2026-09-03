@@ -19,6 +19,8 @@ public class PlayerBagManagerBob : MonoBehaviour
     [SerializeField] private GameObject goldBar;
     [SerializeField] private Vector3 throwpower;
 
+    SceneChanger sceneChanger = new SceneChanger();
+
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovementBob>();
@@ -136,6 +138,7 @@ public class PlayerBagManagerBob : MonoBehaviour
         Debug.Log("Game Clear!");
         playerData.coin = GameManagerBob.instance.money;
         playerData.isClearBank = true;
+        sceneChanger.ChangeScene("SelectScene", 0);
     }
     async void GetDamage()
     {
