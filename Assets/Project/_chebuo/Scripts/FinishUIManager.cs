@@ -1,0 +1,55 @@
+using UnityEngine;
+
+public class FinishUIManager : MonoBehaviour
+{
+    [SerializeField]private GameObject clearPanel;
+    [SerializeField]private GameObject failPanel;
+    [SerializeField]private GameObject warningPanel;
+
+    SceneChanger sceneChanger=new SceneChanger();
+    [SerializeField]private PlayerData playerData;
+
+    void Awake()
+    {
+        if(EscapeGameManager.isClear)
+        {
+            clearPanel.SetActive(true);
+            failPanel.SetActive(false);
+        }
+        else
+        {
+            clearPanel.SetActive(false);
+            failPanel.SetActive(true);
+        }
+    }
+
+    public void OnClickRetryButton()
+    {
+        sceneChanger.ChangeScene("chebuo",0);
+    }
+
+    public void OnClickSelectButton()
+    {
+        sceneChanger.ChangeScene("SelectScene",0);
+    }
+
+    public void OnClickRiviveButton()
+    {
+        if(playerData.gem>=playerData.ReviveCost)
+        {
+            playerData.isRevive=true;
+            playerData.gem-=playerData.ReviveCost;
+            sceneChanger.ChangeScene("chebuo",0);
+        }
+        else
+        {
+            playerData.isRevive=false;
+            warningPanel.SetActive(true);
+        }
+    }
+
+    public void OnClickCloseButton()
+    {
+        warningPanel.SetActive(false);
+    }
+}
