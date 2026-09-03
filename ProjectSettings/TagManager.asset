@@ -20,6 +20,8 @@ TagManager:
   - Ground
   - Player
   - Background
+  - invisibablewall
+  - entity
   - SelectObj
   - 
   - 
