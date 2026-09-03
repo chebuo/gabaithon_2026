@@ -3,15 +3,24 @@ using System.Collections;
 
 public class PoliceMovementBob : MonoBehaviour
 {
+    [SerializeField] private GameObject baton;
+    [SerializeField] private GameObject sks;
+    public AttackType attackType;
     public Transform target; // 追跡するターゲット（プレイヤー）
     public bool isInBank = false; // 自分自身が銀行内にいるかどうかのフラグ
     [SerializeField] private Vector3 targetPosition;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float stoppingDistance = 0.1f;
-    [SerializeField] private int attackTime = 800; // 攻撃モーションに入ってから実際に攻撃が入るまで
-    [SerializeField] private int attackCooldownTime = 2000; // 攻撃後2秒待機
-    [SerializeField] private int attackDamage = 10; // 攻撃力
+    [SerializeField] private int attackTimeBaton = 800; // 攻撃モーションに入ってから実際に攻撃が入るまで
+    [SerializeField] private int attackCooldownTimeBaton = 2000; // 攻撃後2秒待機
+    [SerializeField] private int attackDamageBaton = 10; // 攻撃力
     [SerializeField] private GameObject hitBox;
+    [SerializeField] private int attackTimeSKS = 1000; // 攻撃モーションに入ってから実際に攻撃が入るまで
+    [SerializeField] private int attackCooldownTimeSKS = 3000; // 攻撃後3秒待機
+    [SerializeField] private float attackRengeSKS = 10f; // 攻撃範囲
+    [SerializeField] private float attackAngle = 30f; // プレイヤーを正面に捉えていると判定する角度
+    [SerializeField] private GameObject bulletPrefab;
+    private float attackDamageSKS = 0;
 
     private Rigidbody rb;
     private float attackCooldownRemaining;
@@ -22,6 +31,8 @@ public class PoliceMovementBob : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true;
         animator = GetComponentInChildren<Animator>();
+        if (attackType == AttackType.Baton) baton.SetActive(true);
+        if (attackType == AttackType.SKS) sks.SetActive(true);
     }
 
     private void FixedUpdate()
@@ -39,7 +50,7 @@ public class PoliceMovementBob : MonoBehaviour
             return;
         }
 
-        if (IsPlayerInHitBox())
+        if (CanAttack())
         {
             StartAttack();
             return;
@@ -74,6 +85,38 @@ public class PoliceMovementBob : MonoBehaviour
         rb.linearVelocity = velocityWhileMoving;
     }
 
+    private bool CanAttack()
+    {
+        if (GameManagerBob.instance == null ||
+            GameManagerBob.instance.isPlayerInBank != isInBank ||
+            target == null ||
+            !IsFacingTarget())
+        {
+            return false;
+        }
+
+        if (attackType == AttackType.Baton)
+        {
+            return IsPlayerInHitBox();
+        }
+
+        return attackType == AttackType.SKS &&
+            Vector3.Distance(transform.position, target.position) <= attackRengeSKS;
+    }
+
+    private bool IsFacingTarget()
+    {
+        Vector3 directionToTarget = target.position - transform.position;
+        directionToTarget.y = 0f;
+
+        if (directionToTarget.sqrMagnitude <= 0f)
+        {
+            return true;
+        }
+
+        return Vector3.Angle(transform.forward, directionToTarget) <= attackAngle;
+    }
+
     private bool IsPlayerInHitBox()
     {
         if (hitBox == null)
@@ -105,27 +148,43 @@ public class PoliceMovementBob : MonoBehaviour
 
     private void StartAttack()
     {
-        attackCooldownRemaining = attackCooldownTime / 1000f;
+        bool isBatonAttack = attackType == AttackType.Baton;
+        attackCooldownRemaining = (isBatonAttack ? attackCooldownTimeBaton : attackCooldownTimeSKS) / 1000f;
         StopMovement();
 
         if (animator != null)
         {
-            animator.SetTrigger("attackbaton");
+            animator.SetTrigger(isBatonAttack ? "attackbaton" : "attacksks");
             animator.SetBool("iscooltime", true);
         }
 
-        StartCoroutine(AttackHitBoxRoutine());
+        StartCoroutine(isBatonAttack ? AttackHitBoxRoutine() : AttackSKSRoutine());
     }
 
     private IEnumerator AttackHitBoxRoutine()
     {
-        yield return new WaitForSeconds(attackTime / 1000f);
+        yield return new WaitForSeconds(attackTimeBaton / 1000f);
 
         if (hitBox != null)
         {
             hitBox.tag = "damageArea";
             yield return new WaitForSeconds(0.1f);
             hitBox.tag = "Untagged";
+        }
+    }
+
+    private IEnumerator AttackSKSRoutine()
+    {
+        yield return new WaitForSeconds(attackTimeSKS / 1000f);
+
+        if (bulletPrefab != null)
+        {
+            Instantiate(bulletPrefab, transform.position + transform.forward, transform.rotation);
+
+            if (animator != null)
+            {
+                animator.SetTrigger("shot");
+            }
         }
     }
 
