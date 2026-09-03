@@ -296,7 +296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ddd8e6edb812a2e4dbf89095ec6d5875, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -594,9 +594,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PoliceMovementBob
   baton: {fileID: 8113606120597801872}
   sks: {fileID: 3861800748057023799}
-  attackType: 1
+  attackType: 0
   target: {fileID: 0}
   isInBank: 0
+  health: 100
   targetPosition: {x: 0, y: 1, z: 4.2}
   moveSpeed: 3
   stoppingDistance: 0.1
@@ -609,6 +610,9 @@ MonoBehaviour:
   attackRengeSKS: 3
   attackAngle: 30
   bulletPrefab: {fileID: 4036770502317157084, guid: 203da99779b11cf4f86a19221a741aed, type: 3}
+  hitKnockbackForce: 3
+  deathKnockbackForce: 7
+  knockbackDuration: 0.2
 --- !u!4 &5617672686760068847 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 11b002f8b31f82541ad0c1d8e45c529d, type: 3}
