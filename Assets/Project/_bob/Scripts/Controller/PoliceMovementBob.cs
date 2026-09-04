@@ -38,6 +38,9 @@ public class PoliceMovementBob : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true;
         animator = GetComponentInChildren<Animator>();
+    }
+    private void Start()
+    {
         if (attackType == AttackType.Baton) baton.SetActive(true);
         if (attackType == AttackType.SKS) sks.SetActive(true);
     }
@@ -197,7 +200,7 @@ public class PoliceMovementBob : MonoBehaviour
 
         if (bulletPrefab != null)
         {
-            Instantiate(bulletPrefab, transform.position + transform.forward, transform.rotation);
+            Instantiate(bulletPrefab, transform.position + transform.forward + transform.up * 1.4f, transform.rotation);
 
             if (animator != null)
             {

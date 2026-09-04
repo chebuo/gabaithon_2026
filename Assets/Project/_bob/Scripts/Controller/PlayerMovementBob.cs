@@ -17,6 +17,8 @@ public class PlayerMovementBob : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
+    [SerializeField] private float knockbackDuration = 0.2f;
+
     private Rigidbody rb;
     private Vector2 moveInput;
     private bool wasMoving;
@@ -35,7 +37,9 @@ public class PlayerMovementBob : MonoBehaviour
 
     private float attackCooldownRemaining;
     private float shotDelayRemaining;
+    private float knockbackRemaining;
     private bool isAiming;
+    private bool isDead;
 
     private void Awake()
     {
@@ -69,6 +73,12 @@ public class PlayerMovementBob : MonoBehaviour
 
     private void Update()
     {
+        if (isDead)
+        {
+            moveInput = Vector2.zero;
+            return;
+        }
+
         moveInput = ReadMoveInput();
 
         bool isMoving = moveInput.sqrMagnitude > 0f;
@@ -114,6 +124,17 @@ public class PlayerMovementBob : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isDead)
+        {
+            return;
+        }
+
+        if (knockbackRemaining > 0f)
+        {
+            knockbackRemaining = Mathf.Max(0f, knockbackRemaining - Time.fixedDeltaTime);
+            return;
+        }
+
         if (attackCooldownRemaining > 0f)
         {
             attackCooldownRemaining = Mathf.Max(0f, attackCooldownRemaining - Time.fixedDeltaTime);
@@ -155,6 +176,35 @@ public class PlayerMovementBob : MonoBehaviour
         velocity.x = move.x;
         velocity.z = move.z;
         rb.linearVelocity = velocity;
+    }
+
+    public void ApplyKnockback(Vector3 direction, float force)
+    {
+        direction.y = 0f;
+        if (direction.sqrMagnitude <= 0f)
+        {
+            return;
+        }
+
+        knockbackRemaining = knockbackDuration;
+        rb.AddForce(direction.normalized * force, ForceMode.VelocityChange);
+    }
+
+    public void ApplyDeathKnockback(Vector3 direction, float force)
+    {
+        StopMovementInput();
+        isDead = true;
+        rb.constraints &= ~(RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ);
+        ApplyKnockback(direction, force);
+    }
+
+    public void Revive()
+    {
+        isDead = false;
+        knockbackRemaining = 0f;
+        rb.constraints |= RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        rb.rotation = Quaternion.Euler(0f, rb.rotation.eulerAngles.y, 0f);
+        StopMovementInput();
     }
 
     private IEnumerator PunchRoutine()
@@ -233,6 +283,25 @@ public class PlayerMovementBob : MonoBehaviour
         velocity.z = 0f;
         rb.linearVelocity = velocity;
         rb.angularVelocity = Vector3.zero;
+    }
+
+    private void StopMovementInput()
+    {
+        moveInput = Vector2.zero;
+        attackCooldownRemaining = 0f;
+        shotDelayRemaining = 0f;
+        isAiming = false;
+        StopAllCoroutines();
+        SetWeaponVisibility(false);
+        StopMovement();
+
+        if (animator != null)
+        {
+            animator.SetBool("isRunning", false);
+            animator.SetBool("aim", false);
+            animator.SetBool("cooltime", false);
+            animator.SetBool("ispanch", false);
+        }
     }
 
     private void SetWeaponVisibility(bool aiming)

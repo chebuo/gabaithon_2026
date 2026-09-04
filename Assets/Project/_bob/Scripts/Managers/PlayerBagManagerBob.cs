@@ -8,11 +8,14 @@ public class PlayerBagManagerBob : MonoBehaviour
     [Header("スコア・バッグ設定")]
     public int value = 0;
     public int bagCapacity = 5;
-    public int goalScore = 10;
+    public int goalScore = 100;
     private int score = 0;
     private float delTimer = 0f;
     private bool isCleared = false;
     private bool isInvincible = false;
+    [SerializeField, Range(0f, 1f)] private float gameOverMoneyLossRate = 0.5f;
+    [SerializeField] private float hitKnockbackForce = 3f;
+    [SerializeField] private float deathKnockbackForce = 12f;
     [SerializeField] private GoutouData goutouData;
 
     private PlayerMovementBob playerMovement;
@@ -27,11 +30,26 @@ public class PlayerBagManagerBob : MonoBehaviour
     }
     private void Start()
     {
+        playerData.isGameOver = false;
         UIManagerBob.Instance.SetGoalScore(goalScore);
         bagCapacity = 8 + goutouData.maxItemLevel;
     }
     private void Update()
     {
+        if (playerData.isGameOver)
+        {
+            if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+            {
+                Revive();
+            }
+            else if (Keyboard.current != null && Keyboard.current.qKey.wasPressedThisFrame)
+            {
+                ReturnToMap();
+            }
+
+            return;
+        }
+
         if (isCleared && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             GameClear();
@@ -58,6 +76,11 @@ public class PlayerBagManagerBob : MonoBehaviour
     // 納品処理（トリガー内に留まっている時）
     private void OnTriggerStay(Collider other)
     {
+        if (playerData.isGameOver)
+        {
+            return;
+        }
+
         if (other.gameObject.tag == "valuables")
         {
             if (value >= bagCapacity)
@@ -83,8 +106,8 @@ public class PlayerBagManagerBob : MonoBehaviour
                 goldRb.AddForce(throwpower + new Vector3(UnityEngine.Random.Range(-0.2f, 0.2f), 0f, 0f), ForceMode.Impulse);
                 value -= 1;
                 UIManagerBob.Instance.SetBag(value, Color.white);
-                GameManagerBob.instance.money += 1;
-                score += 1;
+                GameManagerBob.instance.money += 5;
+                score += 5;
                 if (score >= goalScore)
                 {
                     UIManagerBob.Instance.SetScore(score, Color.green);
@@ -97,27 +120,34 @@ public class PlayerBagManagerBob : MonoBehaviour
                 delTimer = 0f;
             }
         }
-        if (other.gameObject.tag == "damageArea" && !isInvincible)
-        {
-            GetDamage();
-        }
+        TryGetDamage(other);
     }
     private void OnTriggerEnter(Collider other)
     {
+        TryGetDamage(other);
+
         if (other.gameObject.tag == "gopoint")
         {
             if (score >= goalScore)
             {
-                UIManagerBob.Instance.ShowDialog("press space to go next stage", Color.green);
+                UIManagerBob.Instance.ShowDialog("スペースキーを押して逃げる", Color.green);
                 isCleared = true;
             } else
             {
-                UIManagerBob.Instance.ShowDialog("you need more score", Color.red);
+                UIManagerBob.Instance.ShowDialog("もっと盗んでください", Color.red);
             }
         }
         if (other.gameObject.tag == "Bank")
         {
             GameManagerBob.instance.isPlayerInBank = true;
+        }
+    }
+
+    private void TryGetDamage(Collider other)
+    {
+        if (!playerData.isGameOver && !isInvincible && other.CompareTag("damageArea"))
+        {
+            GetDamage(other);
         }
     }
     public void OnTriggerExit(Collider other)
@@ -140,12 +170,50 @@ public class PlayerBagManagerBob : MonoBehaviour
         playerData.isClearBank = true;
         sceneChanger.ChangeScene("SelectScene", 0);
     }
-    async void GetDamage()
+
+    private void Revive()
+    {
+        if (playerData.gem < playerData.ReviveCost)
+        {
+            UIManagerBob.Instance.ShowDialog("ジェムが足りません", Color.red);
+            return;
+        }
+
+        playerData.gem -= playerData.ReviveCost;
+        playerData.isGameOver = false;
+        GameManagerBob.instance.RestorePlayerHealth();
+        playerMovement.Revive();
+
+        EnemyManagerBob enemyManager = FindFirstObjectByType<EnemyManagerBob>();
+        if (enemyManager != null)
+        {
+            enemyManager.ResetEnemies();
+        }
+
+        UIManagerBob.Instance.SetHealth(GameManagerBob.instance.playerHealth);
+        UIManagerBob.Instance.ShowDialog("", Color.white);
+    }
+
+    private void ReturnToMap()
+    {
+        playerData.coin = Mathf.FloorToInt(playerData.coin * (1f - gameOverMoneyLossRate));
+        playerData.isGameOver = false;
+        sceneChanger.ChangeScene("SelectScene", 0);
+    }
+
+    async void GetDamage(Collider damageCollider)
     {
         GameManagerBob.instance.playerHealth -= 10;
+        Vector3 knockbackDirection = damageCollider.transform.forward;
         if (GameManagerBob.instance.playerHealth <= 0)
         {
             playerData.isGameOver = true;
+            playerMovement.ApplyDeathKnockback(knockbackDirection, deathKnockbackForce);
+            UIManagerBob.Instance.ShowDialog("ゲームオーバー\nRキーを押して復活(" + playerData.ReviveCost + "ジェム使用)\nQキーを押してマップに戻る", Color.red);
+        }
+        else
+        {
+            playerMovement.ApplyKnockback(knockbackDirection, hitKnockbackForce);
         }
         UIManagerBob.Instance.SetHealth(GameManagerBob.instance.playerHealth);
         isInvincible = true;
