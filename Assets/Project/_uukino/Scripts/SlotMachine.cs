@@ -36,19 +36,15 @@ public class SlotMachine : MonoBehaviour
     [Header("タイムリミット演出")]
     public GameObject redSpotlight;           // 用意されている赤いスポットライト（点滅させる）
     public GameObject transitionButtonObject; // シーン遷移用ボタン（普段は非表示）
-    public CanvasGroup fadeCanvasGroup;       // 画面全体を覆う黒いCanvasGroup（暗転用）
-    public string caughtSceneName = "caught";
     public string selectSceneName = "SelectScene"; // 遷移ボタンを押したときに戻るシーン
     public float redBlinkInterval = 0.3f;     // 赤いスポットライトの点滅間隔
-    public float fadeDuration = 1f;           // 暗転にかける秒数
 
     private bool isPlaying = false;
     private bool winBoostActive = false; // 7柄が揃った後、揃いやすいボーナス状態かどうか
 
     private int spinCount = 0;
     private float firstSpinTime = -1f;
-    private bool escapeTriggered = false;
-    private bool transitionButtonPressed = false;
+    private bool escapeTriggered = false; // trueになったら以降は一切操作不可
     private Coroutine redBlinkCoroutine;
     private int spinsRemaining;
 
@@ -59,7 +55,6 @@ public class SlotMachine : MonoBehaviour
     int SpinsPerCoin => slotData != null ? slotData.FinalSpinsPerCoin : 15;
     int RedLampSpinCount => slotData != null ? slotData.redLampSpinCount : 15;
     float RedLampTimeSeconds => slotData != null ? slotData.FinalRedLampTimeSeconds : 50f;
-    float BlackoutDelaySeconds => slotData != null ? slotData.FinalBlackoutDelaySeconds : 3f;
 
     void Start()
     {
@@ -99,7 +94,7 @@ public class SlotMachine : MonoBehaviour
 
     void Update()
     {
-        if (!debugNumberKeysEnabled || isPlaying) return;
+        if (!debugNumberKeysEnabled || isPlaying || escapeTriggered) return;
         if (Keyboard.current == null) return;
 
         for (int i = 0; i < digitKeys.Length; i++)
@@ -123,13 +118,13 @@ public class SlotMachine : MonoBehaviour
         if (overSpinLimit || overTimeLimit)
         {
             escapeTriggered = true;
-            StartCoroutine(EscapeSequence());
+            TriggerEscape();
         }
     }
 
     public void OnSpinButtonPressed()
     {
-        if (isPlaying) return;
+        if (isPlaying || escapeTriggered) return;
 
         if (spinsRemaining <= 0 && !TryConsumeCoin())
         {
@@ -295,8 +290,6 @@ public class SlotMachine : MonoBehaviour
     // シーン遷移用ボタンのOnClickにこのメソッドを登録しておくこと
     public void OnTransitionButtonPressed()
     {
-        transitionButtonPressed = true;
-
         if (playerData != null) playerData.isClearCasino = true;
 
         if (redBlinkCoroutine != null)
@@ -310,7 +303,8 @@ public class SlotMachine : MonoBehaviour
         SceneManager.LoadScene(selectSceneName);
     }
 
-    IEnumerator EscapeSequence()
+    // 自動でのゲームオーバー遷移はせず、ボタンを表示して以降の操作をロックするだけにする
+    void TriggerEscape()
     {
         if (transitionButtonObject != null) transitionButtonObject.SetActive(true);
 
@@ -319,18 +313,6 @@ public class SlotMachine : MonoBehaviour
             redSpotlight.SetActive(true);
             redBlinkCoroutine = StartCoroutine(BlinkRedSpotlight());
         }
-
-        float elapsed = 0f;
-        while (elapsed < BlackoutDelaySeconds)
-        {
-            if (transitionButtonPressed) yield break; // ボタンが押されたので暗転・シーン遷移をキャンセル
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        if (transitionButtonPressed) yield break;
-
-        yield return StartCoroutine(FadeToBlackAndLoadScene(caughtSceneName));
     }
 
     IEnumerator BlinkRedSpotlight()
@@ -340,23 +322,5 @@ public class SlotMachine : MonoBehaviour
             redSpotlight.SetActive(!redSpotlight.activeSelf);
             yield return new WaitForSeconds(redBlinkInterval);
         }
-    }
-
-    IEnumerator FadeToBlackAndLoadScene(string sceneName)
-    {
-        if (fadeCanvasGroup != null)
-        {
-            fadeCanvasGroup.blocksRaycasts = true;
-            float t = 0f;
-            while (t < fadeDuration)
-            {
-                t += Time.deltaTime;
-                fadeCanvasGroup.alpha = Mathf.Clamp01(t / fadeDuration);
-                yield return null;
-            }
-            fadeCanvasGroup.alpha = 1f;
-        }
-
-        SceneManager.LoadScene(sceneName);
     }
 }

@@ -27,12 +27,6 @@ public class SlotData : ScriptableObject
     public float redLampTimeLevelStep = 1.5f;
     public int redLampTimeLevel = 1; // 1がデフォルト
 
-    [Header("赤ランプ点滅から暗転までの時間")]
-    public float baseBlackoutDelaySeconds = 3f;
-    [Tooltip("レベルが1つ上がるごとに加算される秒数")]
-    public float blackoutDelayLevelStep = 1f;
-    public int blackoutDelayLevel = 1; // 1がデフォルト
-
     [Header("柄ごとのコイン増減（そろったとき）")]
     [Tooltip("インデックスが絵柄番号に対応。symbolCountと同じ数だけ要素を用意してください（正の値で増加、負の値で減少）")]
     public List<int> symbolCoinRewards = new List<int>();
@@ -50,6 +44,4 @@ public class SlotData : ScriptableObject
     public int FinalSpinsPerCoin => baseSpinsPerCoin + spinsPerCoinLevelStep * Mathf.Max(0, spinsPerCoinLevel - 1);
 
     public float FinalRedLampTimeSeconds => baseRedLampTimeSeconds + redLampTimeLevelStep * Mathf.Max(0, redLampTimeLevel - 1);
-
-    public float FinalBlackoutDelaySeconds => baseBlackoutDelaySeconds + blackoutDelayLevelStep * Mathf.Max(0, blackoutDelayLevel - 1);
 }
