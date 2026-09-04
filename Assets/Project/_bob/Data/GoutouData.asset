@@ -15,6 +15,6 @@ MonoBehaviour:
   moveSpeedLevel: 1
   maxItemLevel: 1
   maxHealthLevel: 1
-  attackCoolDownLevel: 50
-  gunLevel: 1
-  bulletLeft: 1
+  attackCoolDownLevel: 1
+  gunLevel: 0
+  bulletLeft: 0
