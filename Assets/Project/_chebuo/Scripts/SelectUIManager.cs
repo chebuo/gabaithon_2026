@@ -109,6 +109,11 @@ public class SelectUIManager : MonoBehaviour
 
     public void OnClickUpgradeGun()
     {
+        if (goutouData.gunLevel >= 4)
+        {
+            Debug.Log("Gun is already at max level.");
+            return;
+        }
         BuyUpgrade(
             goutouData.gunLevel,
             () => goutouData.gunLevel++

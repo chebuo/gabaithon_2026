@@ -55,7 +55,7 @@ public class UIManagerBob : MonoBehaviour
     public void SetHealth(int n)
     {
         health.text = "HP: " + n;
-        if (n > 30) health.color = Color.green;
+        if (n > 30) health.color = Color.black;
         else health.color = Color.red;
     }
 }

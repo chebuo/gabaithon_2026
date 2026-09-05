@@ -63,6 +63,7 @@ public class EscapeGameManager : MonoBehaviour
     {
         Debug.Log(isClear);
         playerData.isClearEscape=isClear;
+        playerData.gem += 3;
         sceneChanger.ChangeScene("FinishEscape",0);
         await UniTask.Yield();
     }
