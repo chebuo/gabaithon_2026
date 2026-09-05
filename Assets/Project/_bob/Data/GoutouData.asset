@@ -17,4 +17,4 @@ MonoBehaviour:
   maxHealthLevel: 1
   attackCoolDownLevel: 1
   gunLevel: 0
-  bulletLeft: 0
+  bulletLeft: 999999

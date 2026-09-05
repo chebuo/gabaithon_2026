@@ -67,7 +67,7 @@ public class PlayerBagManagerBob : MonoBehaviour
                 return;
             }
             value += 1;
-            UIManagerBob.Instance.SetBag(value, Color.white);
+            UIManagerBob.Instance.SetBag(value, Color.black);
             playerMovement.moveSpeed -= 0.2f;
             Destroy(collision.gameObject);
         }
@@ -89,7 +89,7 @@ public class PlayerBagManagerBob : MonoBehaviour
                 return;
             }
             value += 1;
-            UIManagerBob.Instance.SetBag(value, Color.white);
+            UIManagerBob.Instance.SetBag(value, Color.black);
             playerMovement.moveSpeed -= 0.2f;
             Destroy(other.gameObject);
         }
@@ -105,7 +105,7 @@ public class PlayerBagManagerBob : MonoBehaviour
                 Rigidbody goldRb = gold.GetComponent<Rigidbody>();
                 goldRb.AddForce(throwpower + new Vector3(UnityEngine.Random.Range(-0.2f, 0.2f), 0f, 0f), ForceMode.Impulse);
                 value -= 1;
-                UIManagerBob.Instance.SetBag(value, Color.white);
+                UIManagerBob.Instance.SetBag(value, Color.black);
                 GameManagerBob.instance.money += 5;
                 score += 5;
                 if (score >= goalScore)
@@ -114,7 +114,7 @@ public class PlayerBagManagerBob : MonoBehaviour
                 }
                 else
                 {
-                    UIManagerBob.Instance.SetScore(score, Color.white);
+                    UIManagerBob.Instance.SetScore(score, Color.black);
                 }
                 playerMovement.moveSpeed += 0.2f;
                 delTimer = 0f;
@@ -154,7 +154,7 @@ public class PlayerBagManagerBob : MonoBehaviour
     {
         if (other.gameObject.tag == "gopoint")
         {
-            UIManagerBob.Instance.ShowDialog("", Color.white);
+            UIManagerBob.Instance.ShowDialog("", Color.black);
             isCleared = false;
         }
         if (other.gameObject.tag == "Bank")
@@ -191,7 +191,7 @@ public class PlayerBagManagerBob : MonoBehaviour
         }
 
         UIManagerBob.Instance.SetHealth(GameManagerBob.instance.playerHealth);
-        UIManagerBob.Instance.ShowDialog("", Color.white);
+        UIManagerBob.Instance.ShowDialog("", Color.black);
     }
 
     private void ReturnToMap()
