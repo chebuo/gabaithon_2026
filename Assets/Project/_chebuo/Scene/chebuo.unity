@@ -1632,7 +1632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a561bee8148485448b4f1ae8d528058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EscapeGameManager
-  baseGameTime: 1
+  baseGameTime: 180
   playerManager: {fileID: 159847550}
   uiManager: {fileID: 1450307763}
   currentState: 0
