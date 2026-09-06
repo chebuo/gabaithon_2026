@@ -32,7 +32,7 @@ public class PlayerManagerC : MonoBehaviour
         animator=this.GetComponent<Animator>();
         jumpAction=inputActions.FindAction("Jump");
         jumpAction.Enable();
-        jumpForce=5+escapeData.jumpForceLevel;
+        jumpForce=4+escapeData.jumpForceLevel;
         doubleJump=escapeData.doubleJumpLevel;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -49,6 +49,7 @@ public class PlayerManagerC : MonoBehaviour
         while (isGame)
         {
             AllCheck();
+            TimeSpeedUP();
             switch (currentState)
             {
                 case PlayerStateC.moving:
@@ -62,6 +63,11 @@ public class PlayerManagerC : MonoBehaviour
             }
             await UniTask.Yield(cancellationToken: token);
         }
+    }
+
+    public void TimeSpeedUP()
+    {
+        if(moveSpeed>=20)moveSpeed+=0.00001f;
     }
 
     private async UniTask ActionLoop()

@@ -35,6 +35,7 @@ public class EscapeGameManager : MonoBehaviour
         {
             playerManager.isGame=true;
             playerManager.currentState=PlayerStateC.moving;
+            gameTime = baseGameTime-currentTime;
         }
         else
         {
@@ -61,9 +62,10 @@ public class EscapeGameManager : MonoBehaviour
 
     private async UniTask FinishGame()
     {
+        int giveGem=Random.Range(1,3);
         Debug.Log(isClear);
         playerData.isClearEscape=isClear;
-        playerData.gem += 3;
+        playerData.gem += giveGem;
         sceneChanger.ChangeScene("FinishEscape",0);
         await UniTask.Yield();
     }
@@ -94,7 +96,7 @@ public class EscapeGameManager : MonoBehaviour
         {
             if (currentState == EscapeGameState.playing)
             {
-                uiManager.ShowTimeText((int)baseGameTime,(int)currentTime);
+                uiManager.ShowTimeText((int)gameTime,(int)currentTime);
                 await UniTask.Delay(1000);
                 currentTime++;
             }
