@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SlotData
   m_EditorClassIdentifier: Assembly-CSharp::SlotData
   symbolCount: 6
-  baseAlignChance: 0.05
+  baseAlignChance: 1
   boostedAlignChance: 0.35
   alignChanceLevelFactor: 0.2
   alignChanceLevel: 1
@@ -24,7 +24,4 @@ MonoBehaviour:
   baseRedLampTimeSeconds: 50
   redLampTimeLevelStep: 1.5
   redLampTimeLevel: 1
-  baseBlackoutDelaySeconds: 5
-  blackoutDelayLevelStep: 1
-  blackoutDelayLevel: 1
   symbolCoinRewards: 090300006f000000de0000004d010000bc01000066fdffff
