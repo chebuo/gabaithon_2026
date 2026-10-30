@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SlotData
   m_EditorClassIdentifier: Assembly-CSharp::SlotData
   symbolCount: 6
-  baseAlignChance: 1
+  baseAlignChance: 0.05
   boostedAlignChance: 0.35
   alignChanceLevelFactor: 0.2
   alignChanceLevel: 1
